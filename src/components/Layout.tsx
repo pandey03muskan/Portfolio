@@ -4,11 +4,12 @@ import Navigation from "./Navigation";
 import { useTheme } from "../context/themecontext";
 import ThemeToggle from "./ThemeToggle";
 import Footer from "./Footer";
+import { useRef } from "react";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { theme } = useTheme();
   const backgroundVideo = theme === "dark" ? "/darkback1.mp4" : "/lightback1.mp4";
-
+  const containerRef = useRef<HTMLDivElement>(null);
   return (
     <>
       <Head>
@@ -68,7 +69,52 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               flexGrow: 1,
             }}
           >
-            {children}
+            <Box
+              sx={{
+                  width: "100%",
+                  minHeight: "100vh",
+                  backgroundColor: "#083a55",
+                  position: "relative",
+                  padding: "2rem 0",
+                  borderRadius: "9px",
+              }}
+              >
+
+                {/* Foreground Content */}
+                <Box
+                  ref={containerRef}
+                  sx={{
+                    position: "relative",
+                    zIndex: 1,
+                    width: "85%",
+                    maxWidth: "1100px",
+                    margin: "auto",
+                  }}
+                >
+                      {children}
+
+                      </Box>
+                {/* Keyframes */}
+                <style>
+                  {`
+                  @keyframes moveBackground {
+                    from {
+                      background-position: 0 0;
+                    }
+                    to {
+                      background-position: 40px 40px;
+                    }
+                  }
+
+                  @keyframes fadeUp {
+                    to {
+                      opacity: 1;
+                      transform: translateY(0);
+                    }
+                  }
+                  `}
+                </style>
+            </Box>
           </Box>
 
           {/* Footer will show after scrolling */}

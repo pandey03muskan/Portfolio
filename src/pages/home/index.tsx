@@ -1,9 +1,9 @@
 import NonResButton from "@/components/commonComponent/NonResButton";
 import { Box, Typography, useTheme } from "@mui/material";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Table, TableBody, TableCell, TableContainer,
-  TableRow,Paper
+  TableRow
 } from "@mui/material";
 
 
@@ -15,10 +15,24 @@ const sections = [
       <>
        <div style={{fontSize:"1.2rem"}}>
         I am a <strong>Software Development Engineer</strong>, currently working at
-        <strong> Initializ Labs</strong>, where I’m part of the <strong>Product Team</strong>.
+        <strong style={{color:"#00ffff"}}> Initializ Labs</strong>, where I’m part of the <strong style={{color:"#00ffff"}}>Product Team</strong>.
         <br />
         I’ve worked with <strong>Golang</strong> for developing a <strong>Command Line Tool</strong>,
         and also contributed to the <strong>Frontend Team</strong>.
+       </div>
+       <div style={{paddingTop:"1.5rem", display:"flex", gap:1}}>
+            <div style={{fontSize:"1.3rem"}}>Find me on</div>
+            <div style={{marginLeft:"20px"}}>
+              <a className="iconHover" href="https://github.com/pandey03muskan" style={{marginRight:"10px"}}>
+                <svg xmlns="http://www.w3.org/2000/svg" width={30} height={30} viewBox="0 0 16 16"><path fill="currentColor" fillRule="evenodd" d="M16 8c0 4.42-3.58 8-8 8s-8-3.58-8-8s3.58-8 8-8s8 3.58 8 8m-9.64 6.81v-1.49c-1.9.426-2.31-.852-2.31-.852c-.306-.828-.758-1.04-.758-1.04c-.622-.438.045-.438.045-.438c.69.047 1.05.734 1.05.734c.611 1.09 1.6.781 1.99.592c.057-.462.238-.781.43-.959c-1.52-.166-3.11-.781-3.11-3.53c0-.781.271-1.42.702-1.92c-.068-.177-.306-.911.068-1.89c0 0 .577-.189 1.88.734a6.4 6.4 0 0 1 1.71-.237c.577 0 1.17.083 1.71.237c1.3-.923 1.88-.734 1.88-.734c.374.982.136 1.72.068 1.89c.442.497.702 1.14.702 1.92c0 2.75-1.6 3.35-3.12 3.53c.25.225.501.651.501 1.33v2.09a7 7 0 0 0 5.21-6.77c0-3.87-3.13-7-7-7s-7 3.13-7 7c0 3.3 2.29 6.07 5.36 6.81z" clipRule="evenodd"></path></svg>
+              </a>
+              <a className="iconHover" href="https://www.linkedin.com/in/muskan-pandey-36661a220/" style={{marginRight:"10px"}}>
+                <svg xmlns="http://www.w3.org/2000/svg" width={30} height={30} viewBox="0 0 24 24"><path fill="currentColor" d="M19.707 3H4.347a1.3 1.3 0 0 0-1.306 1.306v15.388c0 .696.58 1.306 1.306 1.306h15.3a1.3 1.3 0 0 0 1.307-1.306V4.277C21.013 3.581 20.432 3 19.707 3M8.354 18.3H5.713V9.735h2.642zM7.019 8.545a1.53 1.53 0 0 1-1.538-1.539c0-.841.696-1.538 1.538-1.538s1.54.697 1.54 1.538s-.64 1.54-1.54 1.54M18.371 18.3h-2.642v-4.152c0-.987-.029-2.293-1.393-2.293c-1.394 0-1.597 1.103-1.597 2.206V18.3h-2.642V9.735h2.584v1.19h.029c.377-.696 1.22-1.393 2.526-1.393c2.7 0 3.193 1.742 3.193 4.123V18.3z"></path></svg>
+              </a>
+              <a className="iconHover" href="https://drive.google.com/file/d/13s68bVROFS9EaOLZITjnzJb1DwhnIEVO/view?usp=sharing">
+                <svg xmlns="http://www.w3.org/2000/svg" width={30} height={30} viewBox="0 0 24 24"><path fill="currentColor" d="M13 9h5.5L13 3.5zM6 2h8l6 6v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4c0-1.11.89-2 2-2m8 18v-1c0-1.33-2.67-2-4-2s-4 .67-4 2v1zm-4-8a2 2 0 0 0-2 2a2 2 0 0 0 2 2a2 2 0 0 0 2-2a2 2 0 0 0-2-2"></path></svg>
+              </a>
+            </div>
        </div>
       </>
     ),},
@@ -28,9 +42,9 @@ const sections = [
     icon:<svg xmlns="http://www.w3.org/2000/svg" width={40} height={40} viewBox="0 0 24 24"><path fill="currentColor" fillRule="evenodd" d="M17 7a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3H6a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3v-8a3 3 0 0 0-3-3zm-3-1h-4a1 1 0 0 0-1 1h6a1 1 0 0 0-1-1M6 9h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1" clipRule="evenodd"></path></svg> ,
     description: (
       <> 
-        <span style={{fontSize:"1.2rem"}}><strong>05/2024 - 05/2025:</strong> Software Development Engineer Intern @initializ Labs</span>
+        <span style={{fontSize:"1.2rem"}}><strong style={{color:"#00FFFF"}}>05/2024 - 05/2025</strong> Software Development Engineer Intern @initializ Labs</span>
         <br />
-        <span style={{fontSize:"1.2rem"}}><strong>06/2025 - Present:</strong> Software Development Engineer - 1 @initializ Labs</span>
+        <span style={{fontSize:"1.2rem"}}><strong style={{color:"#00FFFF"}}>06/2025 - Present</strong> Software Development Engineer - 1 @initializ Labs</span>
       </>
     )
     },
@@ -48,8 +62,8 @@ const sections = [
   >
     <TableBody>
       <TableRow>
-        <TableCell sx={{ fontWeight: 'bold', width: '300px' }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1,color:"rgb(209 213 219)"}}>
+        <TableCell sx={{ fontWeight: 'bold', width: '300px',color:"#00FFFF"}}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1}}>
             <svg xmlns="http://www.w3.org/2000/svg" width={18} height={14} viewBox="0 0 18 14">
               <path fill="currentColor" d="m5.243 6.657l-4.95-4.95A1 1 0 1 1 1.707.293L7.364 5.95a1 1 0 0 1 0 1.414l-5.657 5.657a1 1 0 1 1-1.414-1.414zM9 11h8a1 1 0 0 1 0 2H9a1 1 0 0 1 0-2"/>
             </svg>
@@ -65,22 +79,24 @@ const sections = [
       </TableRow>
 
       <TableRow>
-        <TableCell sx={{ fontWeight: 'bold', width: '300px',color:"rgb(209 213 219)"}}>
+        <TableCell sx={{ fontWeight: 'bold', width: '300px',color:"#00FFFF"}}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <svg xmlns="http://www.w3.org/2000/svg" width={22} height={22} viewBox="0 0 24 24"><path fill="currentColor" d="M0 12a11.95 11.95 0 0 1 2.713-7.6h18.574L8.037 23.33C3.358 21.694 0 17.24 0 12m22.271-6.208A11.94 11.94 0 0 1 24 12c0 6.627-5.373 12-12 12q-1.193-.002-2.32-.224zM4.295 2.8A11.95 11.95 0 0 1 12 0c2.933 0 5.62 1.052 7.705 2.8z"></path></svg>
-            <span style={{fontSize:"1.2rem"}}>Frameworks:</span>
+            <span style={{fontSize:"1.2rem"}}>Framework & Library:</span>
           </Box>
         </TableCell>
         <TableCell>
           <Box sx={{ display: "flex", gap: 1 }}>
               <NonResButton title={"React"} icon={<svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24"><path fill="currentColor" d="M11.103 10.438a1.786 1.786 0 1 0 2.44.654a1.786 1.786 0 0 0-2.44-.654m8.005 1.938q-.176-.201-.371-.403q.136-.144.264-.287c1.605-1.804 2.283-3.614 1.655-4.701c-.602-1.043-2.393-1.354-4.636-.918q-.331.065-.659.146q-.063-.216-.133-.43C14.467 3.49 13.238 1.999 11.982 2c-1.204 0-2.368 1.397-3.111 3.558q-.11.32-.203.644q-.219-.054-.44-.1c-2.366-.485-4.271-.165-4.898.924c-.601 1.043.027 2.75 1.528 4.472q.224.255.46.5q-.279.286-.525.571c-1.465 1.698-2.057 3.376-1.457 4.415c.62 1.074 2.498 1.425 4.785.975q.278-.055.553-.124q.1.351.221.697C9.635 20.649 10.792 22 11.992 22c1.24 0 2.482-1.453 3.235-3.659q.089-.262.169-.541q.355.088.715.156c2.203.417 3.952.09 4.551-.95c.619-1.075-.02-2.877-1.554-4.63M4.07 7.452c.386-.67 1.943-.932 3.986-.512q.196.04.399.09a20.5 20.5 0 0 0-.422 2.678A21 21 0 0 0 5.93 11.4q-.219-.227-.427-.465C4.216 9.461 3.708 8.081 4.07 7.452m3.887 5.728c-.51-.387-.985-.783-1.416-1.181c.43-.396.905-.79 1.415-1.176q-.028.589-.027 1.179q0 .59.028 1.178m0 3.94a7.2 7.2 0 0 1-2.64.094a1.77 1.77 0 0 1-1.241-.657c-.365-.63.111-1.978 1.364-3.43q.236-.273.488-.532a20.5 20.5 0 0 0 2.107 1.7a21 21 0 0 0 .426 2.712q-.25.063-.505.114m7.1-8.039q-.503-.317-1.018-.613q-.508-.292-1.027-.563a19 19 0 0 1 1.739-.635a18 18 0 0 1 .306 1.811M9.68 5.835c.636-1.85 1.578-2.98 2.304-2.98c.773-.001 1.777 1.218 2.434 3.197q.064.194.12.39a20.5 20.5 0 0 0-2.526.97a20 20 0 0 0-2.52-.981q.087-.3.188-.596m-.4 1.424a18 18 0 0 1 1.73.642q-1.052.542-2.048 1.181c.08-.638.187-1.249.318-1.823m-.317 7.66q.497.319 1.009.613q.522.3 1.057.576a18 18 0 0 1-1.744.665a19 19 0 0 1-.322-1.853m5.456 3.146a7.2 7.2 0 0 1-1.238 2.333a1.77 1.77 0 0 1-1.188.748c-.729 0-1.658-1.085-2.29-2.896q-.112-.321-.206-.648a20 20 0 0 0 2.53-1.01a21 21 0 0 0 2.547.979q-.072.249-.155.494m.362-1.324a19 19 0 0 1-1.762-.646q.509-.267 1.025-.565q.53-.306 1.032-.627a18 18 0 0 1-.295 1.838m.447-4.743q0 .911-.057 1.82q-.741.502-1.554.972q-.81.467-1.597.856q-.827-.396-1.622-.854q-.79-.455-1.544-.969q-.07-.91-.07-1.822q0-.911.068-1.821a24 24 0 0 1 3.158-1.823q.816.397 1.603.851q.79.454 1.55.959q.065.914.065 1.831m.956-5.093c1.922-.373 3.37-.122 3.733.507c.387.67-.167 2.148-1.554 3.706q-.115.129-.238.259a20 20 0 0 0-2.144-1.688a20 20 0 0 0-.405-2.649q.31-.076.608-.135m-.13 3.885a18 18 0 0 1 1.462 1.188a18 18 0 0 1-1.457 1.208q.023-.594.023-1.188q0-.604-.028-1.208m3.869 5.789c-.364.631-1.768.894-3.653.538q-.324-.061-.664-.146a20 20 0 0 0 .387-2.682a20 20 0 0 0 2.137-1.715q.177.183.336.364a7.2 7.2 0 0 1 1.403 2.238a1.77 1.77 0 0 1 .054 1.403"></path></svg>}/>
               <NonResButton title={"Next.js"} icon={<svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24"><path fill="currentColor" d="M17.664 17.65L10.26 8H8v8h2v-5.054l6.087 7.933a8 8 0 1 1 1.578-1.23M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2S2 6.477 2 12s4.477 10 10 10m2-10V8h2v4z"></path></svg>}/>  
+              <NonResButton title={"Cobra CLI"} icon={<svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 512 512"><path fill="currentColor" d="M185.705 51.72c-5.27 0-9.55 12.73-9.55 28.43s4.29 28.43 9.56 28.43s9.55-12.73 9.55-28.43s-4.29-28.43-9.56-28.43m140.07 0c-5.27 0-9.51 12.73-9.51 28.43s4.23 28.42 9.51 28.42v.01c5.28 0 9.55-12.73 9.55-28.43s-4.28-28.43-9.55-28.43m-82.74 37.75l13.72 23.76l13.71-23.76zm12.97 50.09c-.4.46-.905.924-1.32 1.32a128.63 128.63 0 0 1-59 35c-5.19 75.01 13 104.16 13 104.16s-24.57-15.91-37.35-100a128.4 128.4 0 0 1-53.602-7.52a306.7 306.7 0 0 0 19.001 52.25c12.19 26.08 43.29 55.18 52.75 84.51c24.78 76.7 2.85 151 66.51 151s41.772-74.3 66.522-151c9.46-29.34 40.55-58.43 52.75-84.51a306.7 306.7 0 0 0 19-52.25a128.4 128.4 0 0 1-44.32 7.84a130 130 0 0 1-15.49-.93c-12.75 84.63-37.44 100.63-37.44 100.63s18.5-29.65 12.85-106.09a128.8 128.8 0 0 1-52.6-33.09zm-6.61 123.06h18.4c0 23.34-7.41 37.62-12.82 48.05c-4.83 9.32-6.9 13.72-5.09 20.19c2.51 9 6.8 14.09 11.8 20c13.85 16.4 22.86 31.79 12.52 80.62l-5.69-24l-12.31 20.23c9.27-43.86 1-53.66-8.58-65c-5.57-6.6-11.88-14.07-15.46-26.91c-3.84-13.72 1.44-23.89 6.48-33.6s10.75-20.72 10.75-39.58"/></svg>}/>
+              <NonResButton title={"MUI"} icon={<svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24"><path fill="currentColor" d="M20.229 15.793a.7.7 0 0 0 .244-.243a.7.7 0 0 0 .09-.333l.012-3.858a.7.7 0 0 1 .09-.333a.7.7 0 0 1 .245-.243L23 9.58a.7.7 0 0 1 .333-.088a.7.7 0 0 1 .333.09a.7.7 0 0 1 .244.243a.7.7 0 0 1 .089.333v7.014a.67.67 0 0 1-.335.578l-7.893 4.534a.67.67 0 0 1-.662 0l-6.194-3.542a.67.67 0 0 1-.246-.244a.67.67 0 0 1-.09-.335v-3.537q.001-.007.008-.004q.01.003.008-.005v-.004q0-.004.004-.007l5.102-2.93c.004-.003.002-.01-.003-.01l-.004-.002l-.001-.004l.01-3.467a.67.67 0 0 0-.333-.58a.67.67 0 0 0-.667 0L8.912 9.799a.67.67 0 0 1-.665 0l-3.804-2.19a.667.667 0 0 0-.999.577v6.267a.67.67 0 0 1-.332.577a.7.7 0 0 1-.332.09a.7.7 0 0 1-.333-.088L.336 13.825a.67.67 0 0 1-.246-.244a.67.67 0 0 1-.09-.336L.019 2.292a.667.667 0 0 1 .998-.577l7.23 4.153a.67.67 0 0 0 .665 0l7.228-4.153a.7.7 0 0 1 .333-.088a.7.7 0 0 1 .333.09a.7.7 0 0 1 .244.244a.7.7 0 0 1 .088.333V13.25c0 .117-.03.232-.089.334a.67.67 0 0 1-.245.244l-3.785 2.18a.67.67 0 0 0-.245.245a.67.67 0 0 0-.089.334a.67.67 0 0 0 .09.334a.67.67 0 0 0 .247.244l2.088 1.189a.7.7 0 0 0 .33.087a.7.7 0 0 0 .332-.089zm.438-9.828a.67.67 0 0 0 .09.335a.67.67 0 0 0 .248.244a.67.67 0 0 0 .67-.008l2.001-1.2a.7.7 0 0 0 .237-.243a.7.7 0 0 0 .087-.329V2.32a.67.67 0 0 0-.091-.335a.67.67 0 0 0-.584-.33a.67.67 0 0 0-.334.094l-2 1.2a.7.7 0 0 0-.238.243a.7.7 0 0 0-.086.329z"/></svg>}/>
           </Box>
         </TableCell>
       </TableRow>
 
       <TableRow>
-        <TableCell sx={{ fontWeight: 'bold', color:"rgb(209 213 219)"}}>
+        <TableCell sx={{ fontWeight: 'bold',color:"#00FFFF"}}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 16 16"><path fill="currentColor" d="M3.5 1A2.5 2.5 0 0 0 1 3.5v7A2.5 2.5 0 0 0 3.5 13h1.992a2.5 2.5 0 0 1 .242-.28l.72-.72H3.5A1.5 1.5 0 0 1 2 10.5V5h10v.026a4.5 4.5 0 0 1 1 .004V3.5A2.5 2.5 0 0 0 10.5 1zm5.431 5.724l-.577-.578a.5.5 0 1 0-.708.708l.745.744q.216-.461.54-.874m-2.577.13a.5.5 0 1 0-.708-.708l-2 2a.5.5 0 0 0 0 .708l2 2a.5.5 0 0 0 .708-.708L4.707 8.5zm6.538-.83c.366.042.471.48.21.742l-.975.975a1.507 1.507 0 1 0 2.132 2.132l.975-.975c.261-.261.7-.156.742.21a3.518 3.518 0 0 1-4.676 3.723l-2.726 2.727a1.507 1.507 0 1 1-2.132-2.132L9.168 10.7a3.518 3.518 0 0 1 3.724-4.676"></path></svg>
             <span style={{fontSize:"1.2rem"}}>Tools:</span>
@@ -96,15 +112,17 @@ const sections = [
       </TableRow>
 
       <TableRow>
-        <TableCell sx={{ fontWeight: 'bold', width: '300px',color:"rgb(209 213 219)"}}>
+        <TableCell sx={{ fontWeight: 'bold', width: '300px',color:"#00FFFF"}}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24"><path fill="currentColor" d="M12 21q-3.775 0-6.387-1.162T3 17V7q0-1.65 2.638-2.825T12 3t6.363 1.175T21 7v10q0 1.675-2.613 2.838T12 21m0-11.975q2.225 0 4.475-.638T19 7.025q-.275-.725-2.512-1.375T12 5q-2.275 0-4.462.638T5 7.025q.35.75 2.538 1.375T12 9.025M12 14q1.05 0 2.025-.1t1.863-.288t1.675-.462T19 12.525v-3q-.65.35-1.437.625t-1.675.463t-1.863.287T12 11t-2.05-.1t-1.888-.288T6.4 10.15T5 9.525v3q.625.35 1.4.625t1.663.463t1.887.287T12 14m0 5q1.15 0 2.338-.175t2.187-.462t1.675-.65t.8-.738v-2.45q-.65.35-1.437.625t-1.675.463t-1.863.287T12 16t-2.05-.1t-1.888-.288T6.4 15.15T5 14.525V17q.125.375.788.725t1.662.638t2.2.462T12 19"></path></svg>
-            <span style={{fontSize:"1.2rem"}}>Database:</span>
+            <span style={{fontSize:"1.2rem"}}>Basics:</span>
           </Box>
         </TableCell>
         <TableCell>
           <Box sx={{ display: "flex", gap: 1 }}>
-            <NonResButton title={"MongoDB"} icon={<svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24"><path fill="currentColor" d="M13.74 4.23c-.84-1-1.57-2-1.71-2.22H12c-.14.21-.87 1.22-1.71 2.22c-7.2 9.19 1.14 15.39 1.14 15.39l.07.05c.06.95.22 2.33.22 2.33h.62s.15-1.37.21-2.33l.07-.06s8.32-6.19 1.12-15.38M12 19.48a3.5 3.5 0 0 1-.48-.48L12 9l.45 10a3.6 3.6 0 0 1-.45.48"></path></svg>}/>
+            <NonResButton title={"Database"} icon={<svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24"><path fill="currentColor" d="M12 21q-3.775 0-6.387-1.162T3 17V7q0-1.65 2.638-2.825T12 3t6.363 1.175T21 7v10q0 1.675-2.613 2.838T12 21m0-11.975q2.225 0 4.475-.638T19 7.025q-.275-.725-2.512-1.375T12 5q-2.275 0-4.462.638T5 7.025q.35.75 2.538 1.375T12 9.025M12 14q1.05 0 2.025-.1t1.863-.288t1.675-.462T19 12.525v-3q-.65.35-1.437.625t-1.675.463t-1.863.287T12 11t-2.05-.1t-1.888-.288T6.4 10.15T5 9.525v3q.625.35 1.4.625t1.663.463t1.887.287T12 14m0 5q1.15 0 2.338-.175t2.187-.462t1.675-.65t.8-.738v-2.45q-.65.35-1.437.625t-1.675.463t-1.863.287T12 16t-2.05-.1t-1.888-.288T6.4 15.15T5 14.525V17q.125.375.788.725t1.662.638t2.2.462T12 19"></path></svg>
+}/>
+            <NonResButton title={"Network"} icon={<svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24"><path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit={10} d="M13.5 13.25L10 15.5l-3.5-2.25v-3.5L10 7.5l3.5 2.25zm-9-6.5L2.5 8l-2-1.25v-2l2-1.25l2 1.25zm15-2L17.5 6l-2-1.25v-2l2-1.25l2 1.25zm-15 16.5l-2 1.25l-2-1.25v-2l2-1.25l2 1.25zm16.5 1l-2 1.25l-2-1.25v-2L19 19l2 1.25zm1.5-9.75l-2 1.25l-2-1.25v-2l2-1.25l2 1.25zm-16-2.75L3.813 7.18m13.883 12.635l-5.968-5.426M18.5 11.5h-5m-5.548 2.684l-4.27 4.555M16.318 5.261l-3.686 3.931" strokeWidth={1}></path></svg>}/>
+            <NonResButton title={"OOPs"} icon={<svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24"><path fill="currentColor" d="M14 20v-2h3q.425 0 .713-.288T18 17v-2q0-.95.55-1.725t1.45-1.1v-.35q-.9-.325-1.45-1.1T18 9V7q0-.425-.288-.712T17 6h-3V4h3q1.25 0 2.125.875T20 7v2q0 .425.288.713T21 10h1v4h-1q-.425 0-.712.288T20 15v2q0 1.25-.875 2.125T17 20zm-7 0q-1.25 0-2.125-.875T4 17v-2q0-.425-.288-.712T3 14H2v-4h1q.425 0 .713-.288T4 9V7q0-1.25.875-2.125T7 4h3v2H7q-.425 0-.712.288T6 7v2q0 .95-.55 1.725T4 11.825v.35q.9.325 1.45 1.1T6 15v2q0 .425.288.713T7 18h3v2z"></path></svg>}/>
           </Box>
         </TableCell>
       </TableRow>
@@ -123,58 +141,57 @@ const sections = [
    },
 ];
 
-const Home = () => {
+const HomePage = () => {
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState<string | null>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && entry.intersectionRatio > 0.6) {
+            setActive(entry.target.id);
+          }
+        });
+      },
+      { root: null, threshold: 0.6 }
+    );
+    
+    const els = Array.from(document.querySelectorAll("[id]"));
+    els.forEach(el => observer.observe(el as Element));
+    return () => els.forEach(el => observer.unobserve(el as Element));
+  }, []);
 
   return (
-    <Box
-    sx={{
-        width: "100%",
-        minHeight: "100vh",
-        backgroundColor: isDark ? "" : "#083a55",
-        position: "relative",
-        padding: "2rem 0",
-        borderRadius: "9px",
-    }}
-    >
-
-      {/* Foreground Content */}
-      <Box
-        ref={containerRef}
-        sx={{
-          position: "relative",
-          zIndex: 1,
-          width: "85%",
-          maxWidth: "1100px",
-          margin: "auto",
-        }}
-      >
+     <>
         {/* Hero Section */}
         <Box
           sx={{
             textAlign: "center",
             py: 6,
+            opacity: 0.9
           }}
         >
           <Typography
             variant="h3"
             sx={{
               fontWeight: 700,
-              color: isDark ? "text.secondary":"white",
+              color: "white",
             }}
           >
             Hi, I’m Muskan Pandey
           </Typography>
           <Typography
-            variant="h6"
+            variant="body1"
             sx={{
               mt: 2,
-              color: isDark ? "text.secondary":"white",
+              color:"white",
+              fontWeight: 600,
+              fontSize:"1.1rem"
             }}
           >
-            A Passionate Software Developer and Tech Explorer
+            A Passionate Software Development Engineer
           </Typography>
         </Box>
 
@@ -186,99 +203,79 @@ const Home = () => {
             gap: 6,
           }}
         >
-            {sections.map((section, index) => (
-            <Box
-                key={section.id}
-                id={section.id}
-                sx={{
-                backgroundColor: isDark ? "#1e1e2f" : "#083a55",
-                border: "1px solid grey",
-                boxShadow: "0 0 8px 2px rgba(21, 65, 64, 0.8)",
-                borderRadius: "0.75rem",
-                padding: "1.5rem 1rem",
-                // minHeight: "250px",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                // opacity: 0,
-                transform: "translateY(30px)",
-                animation: `fadeUp 0.6s ease ${index * 0.2}s forwards`,
-                position: "relative",
-                overflow: "hidden",
-                }}
-            >
-                {/* Animated Grid Background */}
-                <Box
-                sx={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    height: "100%",
-                    backgroundImage: `
-                    linear-gradient(0deg, transparent 24%, rgba(192,192,192,0.08) 25%, rgba(192,192,192,0.08) 26%, transparent 27%, transparent 74%, rgba(192,192,192,0.08) 75%, rgba(192,192,192,0.08) 76%, transparent 77%, transparent),
-                    linear-gradient(90deg, transparent 24%, rgba(192,192,192,0.08) 25%, rgba(192,192,192,0.08) 26%, transparent 27%, transparent 74%, rgba(192,192,192,0.08) 75%, rgba(192,192,192,0.08) 76%, transparent 77%, transparent)
-                    `,
-                    backgroundSize: "40px 40px",
-                    animation: "moveBackground 30s linear infinite",
-                    zIndex: 0,
-                }}
-                />
+      {sections.map((section, idx) => {
+        const isActive = active === section.id;
+        return (
+    <Box
+      key={section.id}
+      id={section.id}
+      sx={{
+        position: "relative",
+        overflow: "hidden",
+        transition: "box-shadow 0.5s, transform 0.5s",
+        transform: isActive ? "scale(1.02)" : "scale(1)",
+        border: "1px solid grey",
+        borderRadius: "0.75rem",
+        padding: "1.5rem 1rem",
+        minHeight: "250px",
 
-                <Typography
-                variant="h5"
-                sx=
-                {{ 
-                    fontWeight: 500, 
-                    display:"flex",
-                    mb: 2, 
-                    color: 
-                    "white", 
-                    zIndex: 1,
-                    gap:1
-                 }}
-                >
-                 <span>{section.icon}</span>
-                 <span>{section.title}</span>
-                </Typography>
-                <Typography
-                variant="body1"
-                sx={{
-                    color: "rgb(209 213 219)",
-                    zIndex: 1,
-                    fontSize:"1.1rem"
-                }}
-                >
-                    {section.description}
-                </Typography>
+        // 👇 Hover style: affect the h5 inside when hovered
+        "&:hover h5": {
+          color: "#00ffff",
+        },
+      }}
+    >
+      {/* Spotlight overlay */}
+      <Box
+        sx={{
+          position: "absolute",
+          top: "-50%",
+          left: "-50%",
+          width: "200%",
+          height: "200%",
+          pointerEvents: "none",
+          zIndex: 0,
+        }}
+      />
+            <Box sx={{ position: "relative", zIndex: 1 }}>
+
+                      <Typography
+                      variant="h5"
+                      sx=
+                      {{ 
+                          fontWeight: 600, 
+                          display:"flex",
+                          mb: 2, 
+                          color: 
+                          "white", 
+                          zIndex: 1,
+                          gap:1,
+                          opacity:0.9,
+                      }}
+                      >
+                      <span style={{color:"#00FFFF"}}>{section.icon}</span>
+                      <span>{section.title}</span>
+                      </Typography>
+                      <Typography
+                      variant="body1"
+                      sx={{
+                          color: "rgb(209 213 219)",
+                          zIndex: 1,
+                          fontSize:"1.1rem",
+                          opacity: 0.7,
+                      }}
+                      >
+                          {section.description}
+                      </Typography>
             </Box>
-            ))}
+          </Box>
+        );
+      })}
 
         </Box>
-      </Box>
-
-      {/* Keyframes */}
-      <style>
-        {`
-        @keyframes moveBackground {
-          from {
-            background-position: 0 0;
-          }
-          to {
-            background-position: 40px 40px;
-          }
-        }
-
-        @keyframes fadeUp {
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        `}
-      </style>
-    </Box>
+      </>
   );
 };
 
-export default Home;
+export default HomePage;
+
