@@ -1,6 +1,6 @@
 import NonResButton from "@/components/commonComponent/NonResButton";
-import { Box, Typography, useTheme } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { Box, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import {
   Table, TableBody, TableCell, TableContainer,
   TableRow
@@ -142,8 +142,8 @@ const sections = [
 ];
 
 const HomePage = () => {
-  const theme = useTheme();
-  const isDark = theme.palette.mode === "dark";
+  // const theme = useTheme();
+  // const isDark = theme.palette.mode === "dark";
   const [active, setActive] = useState<string | null>(null);
 
   useEffect(() => {
@@ -203,7 +203,7 @@ const HomePage = () => {
             gap: 6,
           }}
         >
-      {sections.map((section, idx) => {
+      {sections.map((section) => {
         const isActive = active === section.id;
         return (
     <Box

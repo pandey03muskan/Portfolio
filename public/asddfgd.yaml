@@ -1,0 +1,497 @@
+
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  labels:
+    app.kubernetes.io/name: opentelemetry-operator
+  name: opentelemetry-operator-serving-cert
+  namespace: opentelemetry-operator-system
+spec:
+  dnsNames:
+  - opentelemetry-operator-webhook-service.opentelemetry-operator-system.svc
+  - opentelemetry-operator-webhook-service.opentelemetry-operator-system.svc.cluster.local
+  issuerRef:
+    kind: Issuer
+    name: opentelemetry-operator-selfsigned-issuer
+  secretName: opentelemetry-operator-controller-manager-service-cert
+  subject:
+    organizationalUnits:
+    - opentelemetry-operator
+---
+
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  labels:
+    app.kubernetes.io/name: opentelemetry-operator
+  name: opentelemetry-operator-selfsigned-issuer
+  namespace: opentelemetry-operator-system
+spec:
+  selfSigned: {}
+
+---
+
+#otel collector config
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: otel-collector-config
+  namespace: opentelemetry-operator-system
+data:
+  config.yaml: |-
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+            endpoint: 0.0.0.0:4317
+            max_recv_msg_size_mib: 16
+          http:
+            endpoint: 0.0.0.0:4318
+      filelog:
+        include:
+          - /var/log/pods/*/*/*.log
+        exclude:
+          # Exclude logs from all containers named otel-collector
+          - /var/log/pods/*/otel-collector/*.log
+          - /var/log/pods/default_my-opentelemetry-collector*/*/*.log
+        start_at: end
+        include_file_path: true
+        include_file_name: false
+        operators:
+          # Find out which format is used by kubernetes
+          - type: router
+            id: get-format
+            routes:
+              - output: parser-docker
+                expr: 'body matches "^\\{"'
+              - output: parser-crio
+                expr: 'body matches "^[^ Z]+ "'
+              - output: parser-containerd
+                expr: 'body matches "^[^ Z]+Z"'
+          # Parse CRI-O format
+          - type: regex_parser
+            id: parser-crio
+            regex: '^(?P<time>[^ Z]+) (?P<stream>stdout|stderr) (?P<logtag>[^ ]*) ?(?P<log>.*)$'
+            output: extract_metadata_from_filepath
+            timestamp:
+              parse_from: attributes.time
+              layout_type: gotime
+              layout: '2006-01-02T15:04:05.999999999Z07:00'
+          # Parse CRI-Containerd format
+          - type: regex_parser
+            id: parser-containerd
+            regex: '^(?P<time>[^ ^Z]+Z) (?P<stream>stdout|stderr) (?P<logtag>[^ ]*) ?(?P<log>.*)$'
+            output: extract_metadata_from_filepath
+            timestamp:
+              parse_from: attributes.time
+              layout: '%Y-%m-%dT%H:%M:%S.%LZ'
+          # Parse Docker format
+          - type: json_parser
+            id: parser-docker
+            output: extract_metadata_from_filepath
+            timestamp:
+              parse_from: attributes.time
+              layout: '%Y-%m-%dT%H:%M:%S.%LZ'
+          # Extract metadata from file path
+          - type: regex_parser
+            id: extract_metadata_from_filepath
+            regex: '^.*\/(?P<namespace>[^_]+)_(?P<pod_name>[^_]+)_(?P<uid>[a-f0-9\-]{36})\/(?P<container_name>[^\._]+)\/(?P<restart_count>\d+)\.log$'
+            parse_from: attributes["log.file.path"]
+            cache:
+              size: 128  # default maximum amount of Pods per Node is 110
+          # Update body field after finishing all parsing
+          - type: move
+            from: attributes.log
+            to: body
+          # Rename attributes
+          - type: move
+            from: attributes.stream
+            to: attributes["log.iostream"]
+          - type: move
+            from: attributes.container_name
+            to: resource["k8s.container.name"]
+          - type: move
+            from: attributes.namespace
+            to: resource["k8s.namespace.name"]
+          - type: move
+            from: attributes.pod_name
+            to: resource["k8s.pod.name"]
+          - type: move
+            from: attributes.restart_count
+            to: resource["k8s.container.restart_count"]
+          - type: move
+            from: attributes.uid
+            to: resource["k8s.pod.uid"]
+    processors:
+      # k8sattributes processor to get the metadata from K8s
+      k8sattributes:
+        auth_type: "serviceAccount"
+        passthrough: false
+        extract:
+          metadata:
+            - k8s.pod.name
+            - k8s.deployment.name
+          labels:
+            - key_regex: org_id
+              from: pod
+            - key_regex: workspace_id
+              from: pod
+            - key_regex: app_id
+              from: pod
+        pod_association:
+          - sources:
+            - from: resource_attribute
+              name: k8s.pod.ip 
+          - sources:
+            - from: resource_attribute
+              name: k8s.pod.uid
+          - sources:
+            - from: connection
+      filter/mixed:
+        logs:
+            include:
+                match_type: strict
+                resource_attributes:
+                - key: k8s.pod.labels.org_id
+                  value: 66a72d3b98cf74bc5f0cadc4
+      batch:
+        send_batch_size: 100000
+        timeout: 5s
+      memory_limiter:
+        check_interval: 5s
+        limit_percentage: 80
+        spike_limit_percentage: 25                  
+    exporters:
+      logging:
+        loglevel: info
+      otlp: 
+        endpoint: https://stargate.test.otel.initz.run:4317
+        tls:
+          ca_file: /etc/tls/ca.pem
+          cert_file: /etc/tls/cert.pem
+          key_file: /etc/tls/cert-key.pem    
+    extensions:
+      health_check:
+        endpoint: 0.0.0.0:13133
+      pprof:
+        endpoint: localhost:1777
+      zpages:
+        endpoint: localhost:55679
+    service:
+      extensions:
+      - health_check
+      - zpages
+      - pprof
+      pipelines:
+        logs:
+          exporters:
+          - logging
+          - otlp
+          processors:
+          - memory_limiter
+          - k8sattributes
+          - filter/mixed
+          - batch
+          receivers:
+          - filelog 
+        traces:
+          exporters:
+          - otlp
+          processors:
+          - memory_limiter
+          - k8sattributes
+          - filter/mixed
+          - batch
+          receivers:
+          - otlp
+      telemetry:
+        metrics:
+          address: 0.0.0.0:8888
+
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: otel-collector
+  namespace: opentelemetry-operator-system
+  labels:
+    app: opentelemetry
+    component: otel-collector
+spec:
+  selector:
+    matchLabels:
+      app: opentelemetry
+      component: otel-collector
+  template:
+    metadata:
+      labels:
+        app: opentelemetry
+        component: otel-collector
+    spec:
+      serviceAccountName: opentelemetry-operator-controller-manager
+      containers:
+      - name: otel-collector
+        image: otel/opentelemetry-collector-contrib:0.98.0
+        resources:
+          limits:
+            cpu: 100m
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
+        volumeMounts:
+        - name: tls-certs
+          mountPath: "/etc/tls"
+          readOnly: true
+        - mountPath: /var/log
+          name: varlog
+          readOnly: true
+        - mountPath: /var/lib/docker/containers
+          name: varlibdockercontainers
+          readOnly: true
+        - mountPath: /etc/otelcol-contrib/config.yaml
+          name: data
+          subPath: config.yaml
+          readOnly: true
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: varlog
+        hostPath:
+          path: /var/log
+      - name: varlibdockercontainers
+        hostPath:
+          path: /var/lib/docker/containers
+      - name: data
+        configMap:
+          name: otel-collector-config
+      - name: tls-certs
+        secret:
+          secretName: otlp-tls-certs
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: otel-service
+  namespace: opentelemetry-operator-system
+spec:
+  ports:
+  - name: grpc
+    port: 4317
+    protocol: TCP
+    targetPort: 4317
+  - name: http
+    port: 4318
+    protocol: TCP
+    targetPort: 4318
+  selector:
+    app: opentelemetry
+    component: otel-collector
+  type: ClusterIP
+---
+apiVersion: v1
+data:
+  ca.pem: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURDakNDQWZLZ0F3SUJBZ0lVTXhiSGx4S3FEOXp4bk16L2JtQTJOYW1Bbkhvd0RRWUpLb1pJaHZjTkFRRUwKQlFBd0hURWJNQmtHQTFVRUNoTVNTVzVwZEdsaGJHbDZMWE4wWVhKbllYUmxNQjRYRFRJME1EWXdNekV3TXpndwpNRm9YRFRJNU1EWXdNakV3TXpnd01Gb3dIVEViTUJrR0ExVUVDaE1TU1c1cGRHbGhiR2w2TFhOMFlYSm5ZWFJsCk1JSUJJakFOQmdrcWhraUc5dzBCQVFFRkFBT0NBUThBTUlJQkNnS0NBUUVBNlBSVVB1anQ5U083b1JKVTdBdGcKRWVLSjRuajZrN1h6NUpqSUxRWXRjdnRoVFBTUk9mUjhVNTRiSittV3Z2aGhJa0ZPdWljckpxZkR5OGdTMzZabgpaN0gyTEdlbjZVZHJlRnNWYmhUOGhPV1AvT3dUQkZmQXhyUml2V25tSWgrOFFPRXVibFdzV2plR2JuTmx5Z3lUCnV2Tmt4QWJuaDV4TE1vcW12alkyczJWblpYQW5DQjVCczNJTDRCemxINEl2M2ZWSTdSMWVqd3E1aTJoZ2d5VmcKWktDYUNqTHpTTkZOSUlhYzk0dnA4dkVQMWtNRGY5ZmlER0QvK0o0WEZoMVR4b3pLeC9tQy90TnJrVE5LQ2RoKwpFOUQ0emhMSC92enduL09VM1JzVTJnSE1vU2U2QkpBTHh0Z2VGMWovOUJBMWRjRzN6dXFzbjZvOEdXV0E2aXJxClZRSURBUUFCbzBJd1FEQU9CZ05WSFE4QkFmOEVCQU1DQVFZd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBZEJnTlYKSFE0RUZnUVVrZlhJLzVkSmdJT2Q1d1ZmVHF1dE9jM1NrT0l3RFFZSktvWklodmNOQVFFTEJRQURnZ0VCQUFlUgpwOVRPMlVWOWVCb3NYeTlhRkNUaHNqNnhnSmdKeHRDUm9jNjN5YVNyTWpQSmJUV1pJS3RpbWpOWGRMNU9jd1Z2CnkvWXRxY1RiUzhBR2ZKbWQwNzNxTEhZNmRsWTFDUlp3cHVPck9aRjg4czhPamhWQ2VzejkycDRBcUNBd0xicWwKSFpqTjI2d2xqY05UZjNBLzRNS2hlWEM4OXJOY04rb2NzMG9QczBjVFdUUncrajJiaHFmSVhQYUhKOFRUZ0M2UQpKZzJHVkZPbnZCVmU5S0l6L0tNRVF2dC81dktPZHdreXlpY0hJSXEzaXNFczVMOTZLczNPd2pSdW43aHNMVUVSCnczS2NEUTh5NjdjcjNGQkhmVEhWK2tqUkpUSkdMbkM1VURGekFGbzM3TTlSTmpRZ2YwKzRtZ0FFNzZYMzk5MXgKSWVKc2pRS0RBRmNkZmN5a2VMcz0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
+  cert-key.pem: LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFb2dJQkFBS0NBUUVBMHdtUkRvM1BMYm5FRklSY1VzTGx4Qytqalh0NVJOWlUyQnZ0NzFVZG1WVnArMXFvCjJRbzI1MmR3U29EWUExMFNaQ2xmck9saElHMFNaTDJuZGtLeHdYd0s5RFFsV2FCTDlheFdaU3FDNERjOE1DaVMKRFdFUXg1VEREOEdTd0hYd3JiVkVxNUJyeVQxSXFsbldxWUNsUFFwOFg3REpXRUZkUXhMVlRRdkprcVlhcXFkawpQNTVOd2tmRlVIdG5EbVYwUXpkQzd4MlJIbkdpTDBvRHJBeHJzWTRrKzZHVzE3RHNpc1pIVkIxMWpKNjJXbmJrCmtobVJvaEE0K29xbzJkUW03Nnh6R2VPb3RWcGJPeWNXOTlOZURINDIxa0JDWHNCNnY2aFBOaVphT0ZUYVdkZC8KU2lhNEgveTZVWU5uSFFWT3hDbVFwR205bHBMUExNMTJpamljS1FJREFRQUJBb0lCQUMzeDJ6N0w2TnNQb256RgpCRVNRWWUyQVlaOGZ6cHNKL3BhK0hlTUpLTlNGSC9tMUZ5V0piOEtaWm4wUjUvVnpnZG1FbUd2UXMzQ1h6blZZClJPa2VSQXpYc0pyUjczKy93a25PSjFFSEhFOHNOMUpVd3RkZTFvUmRBc3FmWGcvQW5aRno4V3RZbWQ3S0ZOUGgKa3paNzUzMk9sdDFPWThkdkU1clNzdFYvUjNkQmhSMU5lMWg4NXBnNG1STTRsbEVIWWFlWUNEaDVFcGl2WHU1VApZam1ZTHFaZ3hPMmRGckFNek9qNHJxQzNjekFQMzA0bmhYRzVYc2ZCSE5MUlRDRHRrdjlVMXZLbFF0cFYzeHVOCkI3RlNOQ3o3OG4yNkRudVlMRkRGUnZaUDJTRDZqbzJoY2FtZXlzNmpKdWZ1d0twY1hiTU5XSmRLaUFiNEJxcGUKbEpuOFliRUNnWUVBM01jNGt0NmxQLzRJZ0lsRTdyV1VHSldFUklBMjFnOVhxTWFFOG54ZVgzUFhZRWoyelVadwpzUnRxWXJMZkpkMDVSYXR2K1dYT2tpWkFKMHFOY1ZpckRocFNOSlFmbkk5eGtIeXU0VWI4Z0JnS1RNV2k4U0hCCjdCZ1h1d1RYN0lVY3QwcDNZdlFzWGhVQi9LS0l2bGJ3TjZsVDNkRVZXaU5Qaks1MndoYmNMSmNDZ1lFQTlMU0YKYWRwQ0R5Nk5MOERMcG5jbFI1b0JGUFdwQnF3R1kyR3g1Um8vNE1aZlhiMEpscndJenl6eHJxSnRHenNUV1FrTAo0TDZCOXNlSDdrNTlJTWtkUWFkWi9POVZrVzRxNytVVUxXVXBLTUMwaEEwV2lBcEhIZ2cxZ2tINlphV3BIQmhZCnV5MXJtSFROdHM5amt5YThtUmJDMUdibkJsYkUvUjhta1B5UTFUOENnWUJKb21CcUM3d054Y3BNSkh4TEtXQ0YKZW9pczJCNXg4cGdJQUg0aTZmd0gxZmtGY2hCdWtvblBhQmRwWjhNcE84bDRSUitKakwwQzNhTVQ5N2VKRUV1cwozbmFBZHM2OFJ0TlhuMTRzWUtLaWptSVJEUEcxZnM3UTBaQkluZXJ1UmM4NENxd2E0dGxSWDZ4VCtGbW5NaFBZClhLOU9FZ2dQRWl2Yi9ldzUrNm5mYlFLQmdISzU2QXJXdnozcTcxckNJemlxaDVub1JEV1ZiMmVuWTE5WXdGVFAKVjcrRWdkV3ErVUhvYXFEblMzQTZ5cmlIbSt5VVp6TTVYaWxiSndtOVZzRDJTWGNzaE80bkw1RDllN2Y1U05wMwpvVEp3RnJJS2lOUERMZENRdkxXVFJWZytzT2h4S2JpbjlOZ0hleU1JWElEekdsMFQ1TWc4Ym5mMFdtcnFIZVMvCjVROTFBb0dBRFVycWRSNS9NcXNDMjlpcFpDMTZxcSt5UjBRdkIwOE5UVU0vN1c2blZVOFM3Q0JjcklpVWFINUUKOU83Vkx1MGcza1FFeW9GWXRiNGZUbEcxYnMweHdnenkzcDZRYWZwbXd3dXU1cTlJb0J6dlkyZGNjM3l2djIxQwpFeG1mUnhlcmZ5ZEY3WE9jVXN5QS9RY3U3TnNtMjQ1MHovY01rSDZXa3VOa3R2T3FCUDg9Ci0tLS0tRU5EIFJTQSBQUklWQVRFIEtFWS0tLS0tCg==
+  cert.pem: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURVVENDQWptZ0F3SUJBZ0lVRWtvOVBrempmbGovQnkrWlFXckpUUE0xWmpvd0RRWUpLb1pJaHZjTkFRRUwKQlFBd0hURWJNQmtHQTFVRUNoTVNTVzVwZEdsaGJHbDZMWE4wWVhKbllYUmxNQjRYRFRJME1EWXdNekV3TXpndwpNRm9YRFRJMU1EWXdNekV3TXpnd01Gb3dIVEViTUJrR0ExVUVDaE1TU1c1cGRHbGhiR2w2TFhOMFlYSm5ZWFJsCk1JSUJJakFOQmdrcWhraUc5dzBCQVFFRkFBT0NBUThBTUlJQkNnS0NBUUVBMHdtUkRvM1BMYm5FRklSY1VzTGwKeEMrampYdDVSTlpVMkJ2dDcxVWRtVlZwKzFxbzJRbzI1MmR3U29EWUExMFNaQ2xmck9saElHMFNaTDJuZGtLeAp3WHdLOURRbFdhQkw5YXhXWlNxQzREYzhNQ2lTRFdFUXg1VEREOEdTd0hYd3JiVkVxNUJyeVQxSXFsbldxWUNsClBRcDhYN0RKV0VGZFF4TFZUUXZKa3FZYXFxZGtQNTVOd2tmRlVIdG5EbVYwUXpkQzd4MlJIbkdpTDBvRHJBeHIKc1k0ays2R1cxN0RzaXNaSFZCMTFqSjYyV25ia2tobVJvaEE0K29xbzJkUW03Nnh6R2VPb3RWcGJPeWNXOTlOZQpESDQyMWtCQ1hzQjZ2NmhQTmlaYU9GVGFXZGQvU2lhNEgveTZVWU5uSFFWT3hDbVFwR205bHBMUExNMTJpamljCktRSURBUUFCbzRHSU1JR0ZNQTRHQTFVZER3RUIvd1FFQXdJRm9EQWRCZ05WSFNVRUZqQVVCZ2dyQmdFRkJRY0QKQVFZSUt3WUJCUVVIQXdJd0RBWURWUjBUQVFIL0JBSXdBREFkQmdOVkhRNEVGZ1FVeXE3eHRUc1lNSDV0S0JxZgpSdXFPcUFBNnV3Y3dKd1lEVlIwUkJDQXdIb0ljYzNSaGNtZGhkR1V1ZEdWemRDNXZkR1ZzTG1sdWFYUjZMbkoxCmJqQU5CZ2txaGtpRzl3MEJBUXNGQUFPQ0FRRUFMa1phTFZORncwU3NsSDJueVgwd3Y5UmZiUno0MU9rNlZzYVAKVVk0alBxdFJCVk4xZHJLVStjQUZ4VU8wc2x0UTU2QWFIbEE5ckFJM280cFRDRTZIMnpoQkpONHlFMERkU1ZMYgpRRkRYQmRpTUF6dDVTSkMxZkp5cXRiaXNnYW5ySVBCcW1HM0ZLQThoQndHTnNrRlRKd1FRYjV4dTJKMUlxNWZtCmxEYkZXcE9DdTNCRkZ1NExhbnIyQWZGeHcxVEFsNE5JL3hxWUthbVFNSld0L0VKVFhpdEQyMlJjTld3TGNSZ08KOHhZTlBVdGc5YnVjQ1FoKzRzZ3ZneHNqVmtyREtRZkxuc0hrbER6NzN5YW9NTW5sRDBZMmtIOU9EbHZkQjlGdwpDTGh6Y0VhaDdBdHFzZFlVSzRTUFdpeEsvczN4Ni9aMjhncVdVemFxNmd2RjNIcllSdz09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+kind: Secret
+metadata:
+  name: otlp-tls-certs
+  namespace: opentelemetry-operator-system
+type: Opaque
+
+#Gateway class
+---
+kind: GatewayClass
+apiVersion: gateway.networking.k8s.io/v1beta1
+metadata:
+  name: contour
+spec:
+  controllerName: projectcontour.io/gateway-controller
+
+---
+#Sample app deployment
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: sample-app
+  name: sample-app
+  namespace: initializ-system
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sample-app
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        instrumentation.opentelemetry.io/inject-python: "true"
+      labels:
+        app: sample-app
+        org_id: 66a72d3b98cf74bc5f0cadc4
+    spec:
+      containers:
+      - image: initializ/sample_app:latest
+        imagePullPolicy: Always
+        name: sample-app
+        ports:
+        - containerPort: 5000
+          protocol: TCP
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: sample-app
+  name: sample-app
+  namespace: initializ-system
+spec:
+  ports:
+  - port: 5000
+    protocol: TCP
+    targetPort: 5000
+  selector:
+    app: sample-app
+  type: ClusterIP
+
+
+#Agent Deployemnt
+---
+
+apiVersion: v1
+data:
+  ORG_ID: 66a72d3b98cf74bc5f0cadc4
+  ORG_NAME: test
+  API_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NMZXZlbCI6InJlYWQiLCJlbnYiOiJwcm9kIiwiZXhwIjo0OTAzODM4MDkxLCJuYW1lIjoiYXNkZGZnZCIsIm9yZ0lEIjoiNjZhNzJkM2I5OGNmNzRiYzVmMGNhZGM0IiwidXNlcklEIjoiYXV0aDB8NjZhNzJkM2I3ODYyMWY3ZWQ3NDk5ZmNjIn0.hYa5tQ94LKkuH94ofwxZvIfhzTqkwCNOIP1vFhQJxwU
+  CONFIG_NAME: asddfgd
+  ENV_TYPE: prod
+  INIT_BASE_URL: https://api.test.initializ.ai/
+  INIT_CLUSTER_API_URL: https://cluster-app.test.initializ.ai/
+  INITIALIZ_NAMESPACE: initializ-system
+  EXTERNAL_IP: https://klm.com
+kind: ConfigMap
+metadata:
+  name: initz-agent-cm
+  namespace: initializ-system
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: initz-agent
+  namespace: initializ-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: initz-agent
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: initz-agent
+    spec:
+      containers:
+      - name: initz-app-container
+        image: initializ/initializagent:latest
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: initz-agent-cm
+      serviceAccount: initializ-controller-manager
+      serviceAccountName: initializ-controller-manager
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: initializ-cluster-admin
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: initializ-controller-manager
+  namespace: initializ-system
+
+---
+apiVersion: v1
+kind: Secret
+type: kubernetes.io/service-account-token
+metadata:
+  name: initializ-system-token
+  namespace: initializ-system
+  annotations:
+    kubernetes.io/service-account.name: initializ-controller-manager
+
+
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: web-gateway-prod-asddfgd-test-initz-run
+  namespace: projectcontour
+spec:
+  gatewayClassName: contour
+  listeners:
+  - name: web-prod-https
+    protocol: HTTPS
+    port: 443
+    hostname: "*.prod.asddfgd.test.initz.run"
+    allowedRoutes:
+      namespaces:
+        from: Selector
+        selector:
+          matchLabels:
+            shared-gateway-access: "true"
+    tls:
+      certificateRefs:
+      - kind: Secret
+        group: ""
+        name: prod-initz-run-tls-cert
+        namespace: projectcontour
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: initz-liveliness-app-prod
+  namespace: initializ-system
+spec:
+  hostnames:
+  - sample-app.prod.asddfgd.test.initz.run
+  parentRefs:
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: web-gateway-prod-asddfgd-test-initz-run
+    namespace: projectcontour
+  rules:
+  - backendRefs:
+    - group: ""
+      kind: Service
+      name: sample-app
+      port: 5000
+      weight: 1
+    matches:
+    - path:
+        type: PathPrefix
+        value: /
