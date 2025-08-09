@@ -1,16 +1,21 @@
-import NonResButton from "@/components/commonComponent/NonResButton";
-import { Box, Typography } from "@mui/material";
+import SpotlightCard from "../../components/SpolitlightCard";
+import { Box, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@mui/material";
+// import { sections } from "../../components/SpolitlightCard";
 import { useEffect, useState } from "react";
-import {
-  Table, TableBody, TableCell, TableContainer,
-  TableRow
-} from "@mui/material";
+import {Icon} from "@iconify/react"
+import NonResButton from "@/components/commonComponent/NonResButton";
 
+export default function HomePage() {
+  const [active, setActive] = useState<string | null>(null);
 
 const sections = [
   { title: "About Me", 
     id: "about" ,
-    icon:<svg xmlns="http://www.w3.org/2000/svg" width={40} height={40} viewBox="0 0 24 24"><g fill="currentColor" fillRule="evenodd" clipRule="evenodd"><path d="M13.559 10.575a2.2 2.2 0 0 0-.81-.51a8.4 8.4 0 0 0-1.75-.35c-.21 0-.43-.05-.64-.06h-.17a3.73 3.73 0 0 0 1.28-3.37a4 4 0 0 0-4.47-3.36a3.87 3.87 0 0 0-3.85 3.55a3.12 3.12 0 0 0 .9 2.32A13.5 13.5 0 0 0 2 13.525a4.14 4.14 0 0 0 .46 3.46h-.15a1.94 1.94 0 0 1-.85-.28v-.14a2.1 2.1 0 0 1-.12-.58c-.05-.42-.05-.85-.07-1.05L1 11.774c-.06-.79-.17-1.52-.24-2.28a13 13 0 0 1-.07-1.51a.29.29 0 1 0-.58 0A14 14 0 0 0 0 9.525v2.31c0 .77 0 1.28.05 1.92q.023.657.12 1.31q.06.773.24 1.53c.073.317.249.602.5.81c.208.12.435.204.67.25l-.42 1.45c-.08.27-.14.54-.2.819c-.06.28-.1.56-.14.84c-.09.66-.16 1.32-.23 2a.33.33 0 1 0 .64.13c.2-.64.42-1.26.61-1.9c.08-.28.15-.55.21-.83q.098-.42.15-.85c.06-.52.07-1 .08-1.56h1.4c.4 0 .68.16 1 .23a2.8 2.8 0 0 1 1.42.54q.243.21.43.47c.14.19.25.39.37.59c.26.52.55 2.39 1.14 3.15a1.23 1.23 0 0 0 .8.51a1.35 1.35 0 0 0 1.2-.49a5.3 5.3 0 0 0 1-3.36a5.54 5.54 0 0 0-.83-3.31a2.5 2.5 0 0 0-.74-.62c-.5-.28-1.07-.38-1.58-.66a17 17 0 0 1 0-1.84a.33.33 0 0 0-.455-.407a.34.34 0 0 0-.175.187c0 .1-.08 1.52-.08 2.09a.74.74 0 0 0 .19.51c.55.36 1.18.49 1.73.82q.284.173.48.44a4.67 4.67 0 0 1 .53 2.77a4.18 4.18 0 0 1-.78 2.61c-.11.11-.19.19-.28.19s-.05 0-.07-.07a1.4 1.4 0 0 1-.2-.34c-.42-.87-.64-2.26-.86-2.69a5.6 5.6 0 0 0-.46-.73a3.5 3.5 0 0 0-.61-.66a2.9 2.9 0 0 0-.8-.47a7.5 7.5 0 0 0-1.59-.34a2.4 2.4 0 0 1-1.18-.41c-.65-.53-.67-1.61-.48-2.75a12.5 12.5 0 0 1 1.69-4.53a4.6 4.6 0 0 0 2.31.8a.28.28 0 0 0 .32-.25a.28.28 0 0 0-.25-.32c-2.03-.33-2.87-1.62-2.81-2.88a2.91 2.91 0 0 1 3-2.5a3 3 0 0 1 3.44 2.4a3.08 3.08 0 0 1-2.45 3.55a.33.33 0 1 0 .16.64a5.6 5.6 0 0 0 1-.33l.88.11q.367.045.72.15q.798.196 1.55.53a.82.82 0 0 1 .41.29c0 .05 0 .09-.11.17l-.25.22l-.54.28a3.8 3.8 0 0 1-1.29.21c-.76 0-1.54-.07-2.2-.08a.33.33 0 0 0-.36.3a.33.33 0 0 0 .31.35c.78.1 1.74.32 2.62.35c.424 0 .845-.064 1.25-.19q.17-.045.33-.12q.24-.093.46-.23l.52-.44c.49-.79.39-1.27.05-1.62m7.539-4.589a.34.34 0 0 0-.44.15c-.16.31-.31.63-.45.95c-.19.47-.36 1-.52 1.44s-.28.79-.39 1.19q-.12.419-.18.85l-.05.65h-.87c-.73.08-1.46.16-2.2.28s-.89.13-1.6.29s-.45.67-.14.6c.58-.06.82 0 1.4 0c.86 0 1.72-.06 2.58 0h1.23a.72.72 0 0 0 .62-.39q.078-.229.09-.47v-.77q.023-.374.09-.74c.07-.39.17-.78.26-1.16s.23-1 .37-1.45c.1-.31.21-.61.33-.91a.32.32 0 0 0-.13-.51"></path><path d="M23.679 13.654c-1.36-.13-2.71-.24-4.07-.27h-1.75c-.58 0-1.17 0-1.75.1c-1.35.13-2.69.36-4 .59a.29.29 0 0 0 .06.57c1.55-.08 3.08-.08 4.61-.11h.68c-.08.73-.18 1.45-.2 2.18v1.54c0 .66.1 1.31.15 2a4.4 4.4 0 0 0-.95.16a7.5 7.5 0 0 0-2.31 1.22a.31.31 0 0 0-.1.4a.3.3 0 0 0 .4.1a8.3 8.3 0 0 1 2.24-.69q.473-.075.95-.09q.47-.037.94 0a5.15 5.15 0 0 1 2.13.79a.332.332 0 0 0 .4-.53a5.46 5.46 0 0 0-2.33-1.28a3.5 3.5 0 0 0-.65-.11c.08-.63.14-1.27.18-1.9v-2c-.05-.63-.13-1.25-.2-1.87h.95l2.31-.11h2.3a.33.33 0 0 0 .33-.36a.33.33 0 0 0-.32-.33m-7.18-9.759a2.2 2.2 0 0 0-.67 0a2 2 0 0 0-.67.16a2.52 2.52 0 0 0-1.16 1.04a.292.292 0 0 0 .45.37a2.06 2.06 0 0 1 1.07-.41l.48-.07q.245-.015.49 0a2.64 2.64 0 0 1 1.17.14a.31.31 0 0 0 .44-.1a.33.33 0 0 0-.1-.46a3.07 3.07 0 0 0-1.5-.67m-3.73-.7a6.6 6.6 0 0 1 2.44-1.1a7.3 7.3 0 0 1 1.73-.26a3.8 3.8 0 0 1 2.67.8a.33.33 0 0 0 .47 0a.34.34 0 0 0 0-.46a4.26 4.26 0 0 0-2.69-1.39a5.8 5.8 0 0 0-1.32 0a6 6 0 0 0-1.25.31a6.26 6.26 0 0 0-2.44 1.68a.29.29 0 0 0 0 .41a.3.3 0 0 0 .39.01"></path></g></svg>,
+    icon:<svg xmlns="http://www.w3.org/2000/svg" width={40} height={40} viewBox="0 0 24 24">
+      <g fill="currentColor" fillRule="evenodd" clipRule="evenodd">
+      <path d="M13.559 10.575a2.2 2.2 0 0 0-.81-.51a8.4 8.4 0 0 0-1.75-.35c-.21 0-.43-.05-.64-.06h-.17a3.73 3.73 0 0 0 1.28-3.37a4 4 0 0 0-4.47-3.36a3.87 3.87 0 0 0-3.85 3.55a3.12 3.12 0 0 0 .9 2.32A13.5 13.5 0 0 0 2 13.525a4.14 4.14 0 0 0 .46 3.46h-.15a1.94 1.94 0 0 1-.85-.28v-.14a2.1 2.1 0 0 1-.12-.58c-.05-.42-.05-.85-.07-1.05L1 11.774c-.06-.79-.17-1.52-.24-2.28a13 13 0 0 1-.07-1.51a.29.29 0 1 0-.58 0A14 14 0 0 0 0 9.525v2.31c0 .77 0 1.28.05 1.92q.023.657.12 1.31q.06.773.24 1.53c.073.317.249.602.5.81c.208.12.435.204.67.25l-.42 1.45c-.08.27-.14.54-.2.819c-.06.28-.1.56-.14.84c-.09.66-.16 1.32-.23 2a.33.33 0 1 0 .64.13c.2-.64.42-1.26.61-1.9c.08-.28.15-.55.21-.83q.098-.42.15-.85c.06-.52.07-1 .08-1.56h1.4c.4 0 .68.16 1 .23a2.8 2.8 0 0 1 1.42.54q.243.21.43.47c.14.19.25.39.37.59c.26.52.55 2.39 1.14 3.15a1.23 1.23 0 0 0 .8.51a1.35 1.35 0 0 0 1.2-.49a5.3 5.3 0 0 0 1-3.36a5.54 5.54 0 0 0-.83-3.31a2.5 2.5 0 0 0-.74-.62c-.5-.28-1.07-.38-1.58-.66a17 17 0 0 1 0-1.84a.33.33 0 0 0-.455-.407a.34.34 0 0 0-.175.187c0 .1-.08 1.52-.08 2.09a.74.74 0 0 0 .19.51c.55.36 1.18.49 1.73.82q.284.173.48.44a4.67 4.67 0 0 1 .53 2.77a4.18 4.18 0 0 1-.78 2.61c-.11.11-.19.19-.28.19s-.05 0-.07-.07a1.4 1.4 0 0 1-.2-.34c-.42-.87-.64-2.26-.86-2.69a5.6 5.6 0 0 0-.46-.73a3.5 3.5 0 0 0-.61-.66a2.9 2.9 0 0 0-.8-.47a7.5 7.5 0 0 0-1.59-.34a2.4 2.4 0 0 1-1.18-.41c-.65-.53-.67-1.61-.48-2.75a12.5 12.5 0 0 1 1.69-4.53a4.6 4.6 0 0 0 2.31.8a.28.28 0 0 0 .32-.25a.28.28 0 0 0-.25-.32c-2.03-.33-2.87-1.62-2.81-2.88a2.91 2.91 0 0 1 3-2.5a3 3 0 0 1 3.44 2.4a3.08 3.08 0 0 1-2.45 3.55a.33.33 0 1 0 .16.64a5.6 5.6 0 0 0 1-.33l.88.11q.367.045.72.15q.798.196 1.55.53a.82.82 0 0 1 .41.29c0 .05 0 .09-.11.17l-.25.22l-.54.28a3.8 3.8 0 0 1-1.29.21c-.76 0-1.54-.07-2.2-.08a.33.33 0 0 0-.36.3a.33.33 0 0 0 .31.35c.78.1 1.74.32 2.62.35c.424 0 .845-.064 1.25-.19q.17-.045.33-.12q.24-.093.46-.23l.52-.44c.49-.79.39-1.27.05-1.62m7.539-4.589a.34.34 0 0 0-.44.15c-.16.31-.31.63-.45.95c-.19.47-.36 1-.52 1.44s-.28.79-.39 1.19q-.12.419-.18.85l-.05.65h-.87c-.73.08-1.46.16-2.2.28s-.89.13-1.6.29s-.45.67-.14.6c.58-.06.82 0 1.4 0c.86 0 1.72-.06 2.58 0h1.23a.72.72 0 0 0 .62-.39q.078-.229.09-.47v-.77q.023-.374.09-.74c.07-.39.17-.78.26-1.16s.23-1 .37-1.45c.1-.31.21-.61.33-.91a.32.32 0 0 0-.13-.51"></path><path d="M23.679 13.654c-1.36-.13-2.71-.24-4.07-.27h-1.75c-.58 0-1.17 0-1.75.1c-1.35.13-2.69.36-4 .59a.29.29 0 0 0 .06.57c1.55-.08 3.08-.08 4.61-.11h.68c-.08.73-.18 1.45-.2 2.18v1.54c0 .66.1 1.31.15 2a4.4 4.4 0 0 0-.95.16a7.5 7.5 0 0 0-2.31 1.22a.31.31 0 0 0-.1.4a.3.3 0 0 0 .4.1a8.3 8.3 0 0 1 2.24-.69q.473-.075.95-.09q.47-.037.94 0a5.15 5.15 0 0 1 2.13.79a.332.332 0 0 0 .4-.53a5.46 5.46 0 0 0-2.33-1.28a3.5 3.5 0 0 0-.65-.11c.08-.63.14-1.27.18-1.9v-2c-.05-.63-.13-1.25-.2-1.87h.95l2.31-.11h2.3a.33.33 0 0 0 .33-.36a.33.33 0 0 0-.32-.33m-7.18-9.759a2.2 2.2 0 0 0-.67 0a2 2 0 0 0-.67.16a2.52 2.52 0 0 0-1.16 1.04a.292.292 0 0 0 .45.37a2.06 2.06 0 0 1 1.07-.41l.48-.07q.245-.015.49 0a2.64 2.64 0 0 1 1.17.14a.31.31 0 0 0 .44-.1a.33.33 0 0 0-.1-.46a3.07 3.07 0 0 0-1.5-.67m-3.73-.7a6.6 6.6 0 0 1 2.44-1.1a7.3 7.3 0 0 1 1.73-.26a3.8 3.8 0 0 1 2.67.8a.33.33 0 0 0 .47 0a.34.34 0 0 0 0-.46a4.26 4.26 0 0 0-2.69-1.39a5.8 5.8 0 0 0-1.32 0a6 6 0 0 0-1.25.31a6.26 6.26 0 0 0-2.44 1.68a.29.29 0 0 0 0 .41a.3.3 0 0 0 .39.01">
+      </path>
+      </g></svg>,
     description: (
       <>
        <div style={{fontSize:"1.2rem"}}>
@@ -24,13 +29,13 @@ const sections = [
             <div style={{fontSize:"1.3rem"}}>Find me on</div>
             <div style={{marginLeft:"20px"}}>
               <a className="iconHover" href="https://github.com/pandey03muskan" style={{marginRight:"10px"}}>
-                <svg xmlns="http://www.w3.org/2000/svg" width={30} height={30} viewBox="0 0 16 16"><path fill="currentColor" fillRule="evenodd" d="M16 8c0 4.42-3.58 8-8 8s-8-3.58-8-8s3.58-8 8-8s8 3.58 8 8m-9.64 6.81v-1.49c-1.9.426-2.31-.852-2.31-.852c-.306-.828-.758-1.04-.758-1.04c-.622-.438.045-.438.045-.438c.69.047 1.05.734 1.05.734c.611 1.09 1.6.781 1.99.592c.057-.462.238-.781.43-.959c-1.52-.166-3.11-.781-3.11-3.53c0-.781.271-1.42.702-1.92c-.068-.177-.306-.911.068-1.89c0 0 .577-.189 1.88.734a6.4 6.4 0 0 1 1.71-.237c.577 0 1.17.083 1.71.237c1.3-.923 1.88-.734 1.88-.734c.374.982.136 1.72.068 1.89c.442.497.702 1.14.702 1.92c0 2.75-1.6 3.35-3.12 3.53c.25.225.501.651.501 1.33v2.09a7 7 0 0 0 5.21-6.77c0-3.87-3.13-7-7-7s-7 3.13-7 7c0 3.3 2.29 6.07 5.36 6.81z" clipRule="evenodd"></path></svg>
+              <Icon icon="ri:github-fill"/>
               </a>
               <a className="iconHover" href="https://www.linkedin.com/in/muskan-pandey-36661a220/" style={{marginRight:"10px"}}>
-                <svg xmlns="http://www.w3.org/2000/svg" width={30} height={30} viewBox="0 0 24 24"><path fill="currentColor" d="M19.707 3H4.347a1.3 1.3 0 0 0-1.306 1.306v15.388c0 .696.58 1.306 1.306 1.306h15.3a1.3 1.3 0 0 0 1.307-1.306V4.277C21.013 3.581 20.432 3 19.707 3M8.354 18.3H5.713V9.735h2.642zM7.019 8.545a1.53 1.53 0 0 1-1.538-1.539c0-.841.696-1.538 1.538-1.538s1.54.697 1.54 1.538s-.64 1.54-1.54 1.54M18.371 18.3h-2.642v-4.152c0-.987-.029-2.293-1.393-2.293c-1.394 0-1.597 1.103-1.597 2.206V18.3h-2.642V9.735h2.584v1.19h.029c.377-.696 1.22-1.393 2.526-1.393c2.7 0 3.193 1.742 3.193 4.123V18.3z"></path></svg>
+               <Icon icon="prime:linkedin"/>
               </a>
               <a className="iconHover" href="https://drive.google.com/file/d/13s68bVROFS9EaOLZITjnzJb1DwhnIEVO/view?usp=sharing">
-                <svg xmlns="http://www.w3.org/2000/svg" width={30} height={30} viewBox="0 0 24 24"><path fill="currentColor" d="M13 9h5.5L13 3.5zM6 2h8l6 6v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4c0-1.11.89-2 2-2m8 18v-1c0-1.33-2.67-2-4-2s-4 .67-4 2v1zm-4-8a2 2 0 0 0-2 2a2 2 0 0 0 2 2a2 2 0 0 0 2-2a2 2 0 0 0-2-2"></path></svg>
+               <Icon icon="mingcute:drive-line"/>
               </a>
             </div>
        </div>
@@ -141,15 +146,10 @@ const sections = [
    },
 ];
 
-const HomePage = () => {
-  // const theme = useTheme();
-  // const isDark = theme.palette.mode === "dark";
-  const [active, setActive] = useState<string | null>(null);
-
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting && entry.intersectionRatio > 0.6) {
             setActive(entry.target.id);
           }
@@ -157,125 +157,59 @@ const HomePage = () => {
       },
       { root: null, threshold: 0.6 }
     );
-    
+
     const els = Array.from(document.querySelectorAll("[id]"));
-    els.forEach(el => observer.observe(el as Element));
-    return () => els.forEach(el => observer.unobserve(el as Element));
+    els.forEach((el) => observer.observe(el as Element));
+
+    return () => els.forEach((el) => observer.unobserve(el as Element));
   }, []);
 
   return (
-     <>
-        {/* Hero Section */}
-        <Box
-          sx={{
-            textAlign: "center",
-            py: 6,
-            opacity: 0.9
-          }}
-        >
-          <Typography
-            variant="h3"
-            sx={{
-              fontWeight: 700,
-              color: "white",
-            }}
-          >
-            Hi, I’m Muskan Pandey
-          </Typography>
-          <Typography
-            variant="body1"
-            sx={{
-              mt: 2,
-              color:"white",
-              fontWeight: 600,
-              fontSize:"1.1rem"
-            }}
-          >
-            A Passionate Software Development Engineer
-          </Typography>
-        </Box>
-
-        {/* Section Cards */}
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 6,
-          }}
-        >
-      {sections.map((section) => {
-        const isActive = active === section.id;
-        return (
-    <Box
-      key={section.id}
-      id={section.id}
-      sx={{
-        position: "relative",
-        overflow: "hidden",
-        transition: "box-shadow 0.5s, transform 0.5s",
-        transform: isActive ? "scale(1.02)" : "scale(1)",
-        border: "1px solid grey",
-        borderRadius: "0.75rem",
-        padding: "1.5rem 1rem",
-        minHeight: "250px",
-
-        // 👇 Hover style: affect the h5 inside when hovered
-        "&:hover h5": {
-          color: "#00ffff",
-        },
-      }}
-    >
-      {/* Spotlight overlay */}
+    <>
+      {/* Hero Section */}
       <Box
         sx={{
-          position: "absolute",
-          top: "-50%",
-          left: "-50%",
-          width: "200%",
-          height: "200%",
-          pointerEvents: "none",
-          zIndex: 0,
+          textAlign: "center",
+          py: 6,
+          // opacity: 0.9,
         }}
-      />
-            <Box sx={{ position: "relative", zIndex: 1 }}>
+      >
+        <Typography
+          variant="h3"
+          sx={{
+            fontWeight: 700,
+            color: "white",
+          }}
+        >
+          Hi, I’m Muskan Pandey
+        </Typography>
+        <Typography
+          variant="body1"
+          sx={{
+            mt: 2,
+            color: "white",
+            fontWeight: 600,
+            fontSize: "1.1rem",
+          }}
+        >
+          A Passionate Software Development Engineer
+        </Typography>
+      </Box>
 
-                      <Typography
-                      variant="h5"
-                      sx=
-                      {{ 
-                          fontWeight: 600, 
-                          display:"flex",
-                          mb: 2, 
-                          color: 
-                          "white", 
-                          zIndex: 1,
-                          gap:1,
-                          opacity:0.9,
-                      }}
-                      >
-                      <span style={{color:"#00FFFF"}}>{section.icon}</span>
-                      <span>{section.title}</span>
-                      </Typography>
-                      <Typography
-                      variant="body1"
-                      sx={{
-                          color: "rgb(209 213 219)",
-                          zIndex: 1,
-                          fontSize:"1.1rem",
-                          opacity: 0.7,
-                      }}
-                      >
-                          {section.description}
-                      </Typography>
-            </Box>
-          </Box>
-        );
-      })}
-
-        </Box>
-      </>
+      {/* ✅ Section Cards */}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 6,
+        }}
+      >
+        {sections.map((section) => (
+          <div id={section.id} key={section.id}>
+            <SpotlightCard section={section} isActive={active === section.id} />
+          </div>
+        ))}
+      </Box>
+    </>
   );
-};
-
-export default HomePage;
-
+}

@@ -1,107 +1,44 @@
 import React, { useState } from "react";
 import { Box, Typography } from "@mui/material";
 import ReactMarkdown from "react-markdown";
-
+import remarkGfm from 'remark-gfm';
 
 const documents = [
   {
     id: "1",
-    title: "Palindrome Number - Signed Integer Handling",
+    title: "JavaScript Learning DAY :01",
     description: `
-## 🧠 Palindrome Number - Signed Integer Handling
+ ## Array
 
-While solving the **palindrome number** problem, I ran into an edge case when the number was **negative**, like \`-121\`.
+### Two ways to declare an Array
 
-### ❌ Problem
-Reversing digits using modulo and division works for positive numbers, but for signed (negative) numbers, the reversed form becomes invalid.
+  **1. Declaration using Array constructor**
 
-\`\`\`js
-let num = -121;
-let reverse = 0;
+    let myArray = new Array();  
 
-while (num > 0) { // This condition fails immediately for negatives
-  let digit = num % 10;
-  reverse = reverse * 10 + digit;
-  num = Math.floor(num / 10);
-}
-\`\`\`
+  **2. Declaration using Array Literal**
 
-### ✅ Lesson Learned
-In JavaScript, all numbers are **signed by default**. There's no "unsigned int" like in C++ or Java.
+    let myArray = [];
 
-I fixed this by checking for negatives up front:
+  Both will declare an empty array. Suppose we need to define an array of size 5 and by default assign \`true\` to each — in such cases, we can use the \`Array()\` constructor.
 
-\`\`\`js
-if (num < 0) return false;
-\`\`\`
+### Difference between Object and Map() in JS (Learn from array problem → Two Sum)
 
-### 📌 Takeaway
-Always handle signed numbers explicitly in DSA problems. Negative integers should not be treated as palindromes unless the problem allows it.
+  | Feature            | Object                         | Map                                  |
+  |--------------------|--------------------------------|---------------------------------------|
+  | **1. Key Type**    | Only strings and symbols       | Any type (number, object, function…) |
+  | **2. Declaration** | \`const obj = {};\`            | \`const map = new Map();\`            |
+  | **3. Key Order**   | Not guaranteed (in older engines) | Maintains insertion order         |
 `,
     image: "",
-    time: "10:00",
-    date: "2025-07-01"
-  },
-  {
-    id: "2",
-    title: "Plus One - Handling Large Integers and BigInt",
-    description: `
-## 💡 Plus One - Handling Large Integers and BigInt
-
-While solving the **Plus One** problem on LeetCode, I encountered issues converting a large array of digits into an integer.
-
-### ❌ Problem
-Using \`parseInt()\` or \`Number()\` caused precision loss for large numbers.
-
-\`\`\`js
-const digits = [6,1,4,5,3,9,0,1,9,5,1,8,6,7,0,5,5,4,3];
-const num = parseInt(digits.join(""), 10);
-console.log(num); 
-// Output: 6145390195186705000 (Wrong! Precision loss)
-\`\`\`
-
-### ✅ Lesson Learned
-JavaScript has a max safe integer:
-
-\`\`\`js
-console.log(Number.MAX_SAFE_INTEGER); // 9007199254740991
-\`\`\`
-
-To avoid loss of precision, use \`BigInt\`:
-
-\`\`\`js
-const digits = [6,1,4,5,3,9,0,1,9,5,1,8,6,7,0,5,5,4,3];
-const bigNum = BigInt(digits.join("")) + BigInt(1);
-const result = bigNum.toString().split("").map(Number);
-console.log(result); 
-// Output: [6,1,4,5,3,9,0,1,9,5,1,8,6,7,0,5,5,4,4]
-\`\`\`
-
-Also, avoid this mistake:
-
-\`\`\`js
-BigInt(str) + 1; // ❌ TypeError: Cannot mix BigInt and Number
-\`\`\`
-
-Instead, do:
-
-\`\`\`js
-BigInt(str) + BigInt(1); // ✅ Works correctly
-\`\`\`
-
-### 📌 Takeaway
-Use \`BigInt\` for large integers and be careful to **not mix types** in arithmetic. This is crucial when working with digit arrays in DSA.
-`,
-    image: "",
-    time: "10:15",
-    date: "2025-07-01"
+    time: "10:15 PM",
+    date: "July 22,2025"
   }
 ];
 
-const BlogCards = () => {
-  // const [sections, setSections] = useState<sectionType[]>([]);
-  const [active, setActive] = useState(""); // Optional, for highlighting
 
+const BlogCards = () => {
+  const [active, setActive] = useState(""); // Optional, for highlighting
 
   return (
     <>
@@ -153,7 +90,6 @@ const BlogCards = () => {
                   padding: "1.5rem 1rem",
                   minHeight: "250px",
                   mb: 2,
-                  // backgroundColor: "#121212", // optional dark background
                 }}
               >
                 {/* Spotlight overlay */}
@@ -170,30 +106,124 @@ const BlogCards = () => {
                 />
 
                 <Box sx={{ position: "relative", zIndex: 1 }}>
-
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      color: "rgb(209 213 219)",
-                      zIndex: 1,
-                      fontSize: "1.1rem",
-                      opacity: 0.7,
-                    }}
-                  >
-                    <ReactMarkdown>{section?.description}</ReactMarkdown>
+                  <Typography sx={{padding:"1rem",fontSize:"1.5rem",color: "white",fontWeight:"600"}}>
+                    {section?.title}
                   </Typography>
+
+                  <Box sx={{paddingX:"1rem"}}>
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        h1: ({ children }) => (
+                          <Box component="h1" sx={{ fontSize: '1.8rem', fontWeight: 'bold', color: '#fff', mt: 2, mb: 1 }}>
+                            {children}
+                          </Box>
+                        ),
+                        h2: ({ children }) => (
+                          <Box component="h2" sx={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#fff', mt: 2, mb: 1 }}>
+                            {children}
+                          </Box>
+                        ),
+                        h3: ({ children }) => (
+                          <Box component="h3" sx={{ fontSize: '1.1rem', fontWeight: 600, color: '#fff', mt: 2, mb: 1 }}>
+                            {children}
+                          </Box>
+                        ),
+                        p: ({ children }) => (
+                          <Box component="p" sx={{ color: '#ddd', mb: 1 }}>
+                            {children}
+                          </Box>
+                        ),
+                        code: ({ children }) => (
+                          <Box
+                            component="code"
+                            sx={{
+                              fontFamily: 'monospace',
+                              backgroundColor: '#0e4a69',
+                              color: 'rgb(0, 255, 255)',
+                              padding: '2px 6px',
+                              borderRadius: '4px',
+                              fontSize: '0.875rem',
+                            }}
+                          >
+                            {children}
+                          </Box>
+                        ),
+                        pre: ({ children }) => (
+                          <Box
+                            component="pre"
+                            sx={{
+                              backgroundColor: '#0e4a69',
+                              color: 'rgb(0, 255, 255)',
+                              padding: '12px',
+                              borderRadius: '6px',
+                              overflowX: 'auto',
+                              my: 2,
+                            }}
+                          >
+                            {children}
+                          </Box>
+                        ),
+                        table: ({ children }) => (
+                          <Box component="table" sx={{ width: '100%', borderCollapse: 'collapse', mt: 2 }}>
+                            {children}
+                          </Box>
+                        ),
+                        thead: ({ children }) => (
+                          <Box component="thead" sx={{ bgcolor: '#23d7d7ff', color: '#fff', opacity: 0.8 }}>
+                            {children}
+                          </Box>
+                        ),
+                        tbody: ({ children }) => <Box component="tbody">{children}</Box>,
+                        tr: ({ children }) => (
+                          <Box component="tr" sx={{ borderBottom: '1px solid #444' }}>
+                            {children}
+                          </Box>
+                        ),
+                        th: ({ children }) => (
+                          <Box component="th" sx={{ padding: '8px', textAlign: 'left', color: '#fff' }}>
+                            {children}
+                          </Box>
+                        ),
+                        td: ({ children }) => (
+                          <Box component="td" sx={{ padding: '8px', color: '#ddd' }}>
+                            {children}
+                          </Box>
+                        ),
+                        li: ({ children }) => (
+                          <Box component="li" sx={{ color: '#ddd', pl: 1.5, mb: 0.5 }}>
+                            {children}
+                          </Box>
+                        ),
+                        strong: ({ children }) => (
+                          <Box component="strong" sx={{ color: 'rgb(0, 255, 255)' }}>
+                            {children}
+                          </Box>
+                        ),
+                      }}
+                    >
+                      {section?.description}
+                    </ReactMarkdown>
+                  </Box>
 
                   {/* Optional: display date and time */}
                   <Typography
                     variant="caption"
                     sx={{
-                      color: "#ccc",
-                      mt: 1,
-                      display: "block",
+                      color: "#bbb",
+                      mt: 5,
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 1.5,
+                      fontSize: "0.75rem",
+                      letterSpacing: "0.4px",
                     }}
                   >
-                    {section.time}
+                    <span style={{fontSize:"1rem",fontWeight:"bold"}}>{section?.date}</span>
+                    <Box sx={{ width: 4, height: 4, bgcolor: "#bbb", borderRadius: "50%" }} />
+                    <span style={{fontSize:"1rem",fontWeight:"bold"}}>{section?.time}</span>
                   </Typography>
+
                 </Box>
               </Box>
             );

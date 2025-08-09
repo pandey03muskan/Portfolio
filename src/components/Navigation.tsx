@@ -50,7 +50,7 @@ const Navigation = () => {
         }}
       >
         {navItems.map(({ label, icon,path }) => (
-          <Link href={path}>
+          <Link href={path} key={label}>
             <ListItem
             key={label}
             sx={{
