@@ -16,14 +16,22 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     setTheme((prev) => (prev === "dark" ? "light" : "dark"));
   };
 
-  // optional: persist in localStorage
+  // Load saved theme
   useEffect(() => {
     const saved = localStorage.getItem("theme") as Theme;
-    if (saved) setTheme(saved);
+    if (saved) {
+      setTheme(saved);
+    }
   }, []);
 
+  // Apply theme class & save preference
   useEffect(() => {
     localStorage.setItem("theme", theme);
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
   }, [theme]);
 
   return (
@@ -33,7 +41,6 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-// Custom hook
 export const useTheme = () => {
   const context = useContext(ThemeContext);
   if (!context) {

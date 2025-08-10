@@ -4,9 +4,11 @@ import { Box, Table, TableBody, TableCell, TableContainer, TableRow, Typography 
 import { useEffect, useState } from "react";
 import {Icon} from "@iconify/react"
 import NonResButton from "@/components/commonComponent/NonResButton";
+// import { useTheme } from "../../context/themecontext"
 
 export default function HomePage() {
   const [active, setActive] = useState<string | null>(null);
+  // const { theme } = useTheme();
 
 const sections = [
   { title: "About Me", 
@@ -20,7 +22,7 @@ const sections = [
       <>
        <div style={{fontSize:"1.2rem"}}>
         I am a <strong>Software Development Engineer</strong>, currently working at
-        <strong style={{color:"#00ffff"}}> Initializ Labs</strong>, where I’m part of the <strong style={{color:"#00ffff"}}>Product Team</strong>.
+        <strong style={{color:"var(--imp-text)"}}> Initializ Labs</strong>, where I’m part of the <strong style={{color:"var(--imp-text)"}}>Product Team</strong>.
         <br />
         I’ve worked with <strong>Golang</strong> for developing a <strong>Command Line Tool</strong>,
         and also contributed to the <strong>Frontend Team</strong>.
@@ -47,9 +49,9 @@ const sections = [
     icon:<svg xmlns="http://www.w3.org/2000/svg" width={40} height={40} viewBox="0 0 24 24"><path fill="currentColor" fillRule="evenodd" d="M17 7a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3H6a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3v-8a3 3 0 0 0-3-3zm-3-1h-4a1 1 0 0 0-1 1h6a1 1 0 0 0-1-1M6 9h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1" clipRule="evenodd"></path></svg> ,
     description: (
       <> 
-        <span style={{fontSize:"1.2rem"}}><strong style={{color:"#00FFFF"}}>05/2024 - 05/2025</strong> Software Development Engineer Intern @initializ Labs</span>
+        <span style={{fontSize:"1.2rem"}}><strong style={{color:"var(--imp-text)"}}>05/2024 - 05/2025</strong> Software Development Engineer Intern @initializ Labs</span>
         <br />
-        <span style={{fontSize:"1.2rem"}}><strong style={{color:"#00FFFF"}}>06/2025 - Present</strong> Software Development Engineer - 1 @initializ Labs</span>
+        <span style={{fontSize:"1.2rem"}}><strong style={{color:"var(--imp-text)"}}>06/2025 - Present</strong> Software Development Engineer - 1 @initializ Labs</span>
       </>
     )
     },
@@ -67,24 +69,26 @@ const sections = [
   >
     <TableBody>
       <TableRow>
-        <TableCell sx={{ fontWeight: 'bold', width: '300px',color:"#00FFFF"}}>
+        <TableCell sx={{ fontWeight: 'bold', width: '300px',color:"var(--imp-text)"}}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1}}>
             <svg xmlns="http://www.w3.org/2000/svg" width={18} height={14} viewBox="0 0 18 14">
-              <path fill="currentColor" d="m5.243 6.657l-4.95-4.95A1 1 0 1 1 1.707.293L7.364 5.95a1 1 0 0 1 0 1.414l-5.657 5.657a1 1 0 1 1-1.414-1.414zM9 11h8a1 1 0 0 1 0 2H9a1 1 0 0 1 0-2"/>
+              <path fill="var(--imp-text)" d="m5.243 6.657l-4.95-4.95A1 1 0 1 1 1.707.293L7.364 5.95a1 1 0 0 1 0 1.414l-5.657 5.657a1 1 0 1 1-1.414-1.414zM9 11h8a1 1 0 0 1 0 2H9a1 1 0 0 1 0-2"/>
             </svg>
             <span style={{fontSize:"1.2rem"}}>Programming Languages:</span>
           </Box>
         </TableCell>
         <TableCell>
           <Box sx={{ display: "flex", gap: 1 }}>
-                <NonResButton title={"JavaScript"} icon={<svg xmlns="http://www.w3.org/2000/svg" width={30} height={30} viewBox="0 0 24 24"><path fill="currentColor" d="M12 14v-1h1.5v.5h2v-1H13c-.55 0-1-.45-1-1V10c0-.55.45-1 1-1h3c.55 0 1 .45 1 1v1h-1.5v-.5h-2v1H16c.55 0 1 .45 1 1V14c0 .55-.45 1-1 1h-3c-.55 0-1-.45-1-1M9 9v4.5H7.5v-1H6v1c0 .83.67 1.5 1.5 1.5H9c.83 0 1.5-.67 1.5-1.5V9z"></path></svg>}/>
-                <NonResButton title={"Go"} icon={<svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 32 32"><path fill="currentColor" d="M2.417 14.286c-.063 0-.078-.031-.047-.078l.328-.422c.031-.047.104-.078.167-.078h5.563c.063 0 .078.047.047.094l-.266.406a.23.23 0 0 1-.156.094zM.063 15.719c-.063 0-.078-.031-.047-.078l.328-.422c.031-.042.109-.073.172-.073H7.62c.063 0 .094.047.078.094l-.125.37c-.016.063-.078.094-.141.094zm3.77 1.432c-.063 0-.078-.047-.047-.089l.219-.391c.031-.047.094-.094.156-.094h3.115c.063 0 .094.047.094.109l-.031.375c0 .063-.063.109-.109.109zm16.172-3.146c-.979.25-1.651.438-2.62.688c-.234.063-.245.078-.453-.156c-.229-.266-.401-.438-.729-.594c-.984-.479-1.932-.344-2.818.234c-1.063.688-1.604 1.698-1.589 2.958c.01 1.25.87 2.276 2.099 2.448c1.063.141 1.948-.234 2.651-1.026c.141-.172.266-.359.422-.578h-3.01c-.323 0-.406-.203-.297-.469a26 26 0 0 1 .797-1.698a.43.43 0 0 1 .391-.25h5.672c-.031.422-.031.844-.094 1.266a6.65 6.65 0 0 1-1.281 3.052c-1.12 1.479-2.583 2.401-4.438 2.646c-1.526.203-2.948-.094-4.193-1.026c-1.151-.87-1.807-2.026-1.979-3.458c-.198-1.698.297-3.224 1.328-4.568c1.104-1.448 2.568-2.365 4.359-2.693c1.464-.266 2.87-.094 4.13.76c.828.547 1.417 1.297 1.807 2.198c.094.141.031.219-.156.266zm5.156 8.62c-1.417-.036-2.708-.438-3.802-1.375a4.9 4.9 0 0 1-1.682-3.005c-.281-1.76.203-3.318 1.26-4.708c1.141-1.495 2.51-2.271 4.365-2.599c1.589-.281 3.083-.125 4.443.797c1.229.839 1.995 1.974 2.193 3.469c.266 2.104-.339 3.818-1.792 5.286c-1.026 1.042-2.286 1.698-3.74 1.99c-.417.083-.839.094-1.245.146zm3.709-6.297c-.016-.203-.016-.359-.047-.516c-.281-1.542-1.698-2.411-3.177-2.073c-1.448.328-2.385 1.25-2.729 2.714c-.276 1.214.313 2.448 1.438 2.943c.854.375 1.714.328 2.536-.094c1.234-.641 1.901-1.635 1.979-2.974"></path></svg>}/>
+                <NonResButton title={"JavaScript"} 
+                icon={<svg xmlns="http://www.w3.org/2000/svg" width={30} height={30} viewBox="0 0 24 24"><path fill="currentColor" d="M12 14v-1h1.5v.5h2v-1H13c-.55 0-1-.45-1-1V10c0-.55.45-1 1-1h3c.55 0 1 .45 1 1v1h-1.5v-.5h-2v1H16c.55 0 1 .45 1 1V14c0 .55-.45 1-1 1h-3c-.55 0-1-.45-1-1M9 9v4.5H7.5v-1H6v1c0 .83.67 1.5 1.5 1.5H9c.83 0 1.5-.67 1.5-1.5V9z"></path></svg>}/>
+                <NonResButton title={"Go"} 
+                icon={<svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 32 32"><path fill="currentColor" d="M2.417 14.286c-.063 0-.078-.031-.047-.078l.328-.422c.031-.047.104-.078.167-.078h5.563c.063 0 .078.047.047.094l-.266.406a.23.23 0 0 1-.156.094zM.063 15.719c-.063 0-.078-.031-.047-.078l.328-.422c.031-.042.109-.073.172-.073H7.62c.063 0 .094.047.078.094l-.125.37c-.016.063-.078.094-.141.094zm3.77 1.432c-.063 0-.078-.047-.047-.089l.219-.391c.031-.047.094-.094.156-.094h3.115c.063 0 .094.047.094.109l-.031.375c0 .063-.063.109-.109.109zm16.172-3.146c-.979.25-1.651.438-2.62.688c-.234.063-.245.078-.453-.156c-.229-.266-.401-.438-.729-.594c-.984-.479-1.932-.344-2.818.234c-1.063.688-1.604 1.698-1.589 2.958c.01 1.25.87 2.276 2.099 2.448c1.063.141 1.948-.234 2.651-1.026c.141-.172.266-.359.422-.578h-3.01c-.323 0-.406-.203-.297-.469a26 26 0 0 1 .797-1.698a.43.43 0 0 1 .391-.25h5.672c-.031.422-.031.844-.094 1.266a6.65 6.65 0 0 1-1.281 3.052c-1.12 1.479-2.583 2.401-4.438 2.646c-1.526.203-2.948-.094-4.193-1.026c-1.151-.87-1.807-2.026-1.979-3.458c-.198-1.698.297-3.224 1.328-4.568c1.104-1.448 2.568-2.365 4.359-2.693c1.464-.266 2.87-.094 4.13.76c.828.547 1.417 1.297 1.807 2.198c.094.141.031.219-.156.266zm5.156 8.62c-1.417-.036-2.708-.438-3.802-1.375a4.9 4.9 0 0 1-1.682-3.005c-.281-1.76.203-3.318 1.26-4.708c1.141-1.495 2.51-2.271 4.365-2.599c1.589-.281 3.083-.125 4.443.797c1.229.839 1.995 1.974 2.193 3.469c.266 2.104-.339 3.818-1.792 5.286c-1.026 1.042-2.286 1.698-3.74 1.99c-.417.083-.839.094-1.245.146zm3.709-6.297c-.016-.203-.016-.359-.047-.516c-.281-1.542-1.698-2.411-3.177-2.073c-1.448.328-2.385 1.25-2.729 2.714c-.276 1.214.313 2.448 1.438 2.943c.854.375 1.714.328 2.536-.094c1.234-.641 1.901-1.635 1.979-2.974"></path></svg>}/>
           </Box>
         </TableCell>
       </TableRow>
 
       <TableRow>
-        <TableCell sx={{ fontWeight: 'bold', width: '300px',color:"#00FFFF"}}>
+        <TableCell sx={{ fontWeight: 'bold', width: '300px',color:"var(--imp-text)"}}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <svg xmlns="http://www.w3.org/2000/svg" width={22} height={22} viewBox="0 0 24 24"><path fill="currentColor" d="M0 12a11.95 11.95 0 0 1 2.713-7.6h18.574L8.037 23.33C3.358 21.694 0 17.24 0 12m22.271-6.208A11.94 11.94 0 0 1 24 12c0 6.627-5.373 12-12 12q-1.193-.002-2.32-.224zM4.295 2.8A11.95 11.95 0 0 1 12 0c2.933 0 5.62 1.052 7.705 2.8z"></path></svg>
             <span style={{fontSize:"1.2rem"}}>Framework & Library:</span>
@@ -101,7 +105,7 @@ const sections = [
       </TableRow>
 
       <TableRow>
-        <TableCell sx={{ fontWeight: 'bold',color:"#00FFFF"}}>
+        <TableCell sx={{ fontWeight: 'bold',color:"var(--imp-text)"}}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 16 16"><path fill="currentColor" d="M3.5 1A2.5 2.5 0 0 0 1 3.5v7A2.5 2.5 0 0 0 3.5 13h1.992a2.5 2.5 0 0 1 .242-.28l.72-.72H3.5A1.5 1.5 0 0 1 2 10.5V5h10v.026a4.5 4.5 0 0 1 1 .004V3.5A2.5 2.5 0 0 0 10.5 1zm5.431 5.724l-.577-.578a.5.5 0 1 0-.708.708l.745.744q.216-.461.54-.874m-2.577.13a.5.5 0 1 0-.708-.708l-2 2a.5.5 0 0 0 0 .708l2 2a.5.5 0 0 0 .708-.708L4.707 8.5zm6.538-.83c.366.042.471.48.21.742l-.975.975a1.507 1.507 0 1 0 2.132 2.132l.975-.975c.261-.261.7-.156.742.21a3.518 3.518 0 0 1-4.676 3.723l-2.726 2.727a1.507 1.507 0 1 1-2.132-2.132L9.168 10.7a3.518 3.518 0 0 1 3.724-4.676"></path></svg>
             <span style={{fontSize:"1.2rem"}}>Tools:</span>
@@ -117,7 +121,7 @@ const sections = [
       </TableRow>
 
       <TableRow>
-        <TableCell sx={{ fontWeight: 'bold', width: '300px',color:"#00FFFF"}}>
+        <TableCell sx={{ fontWeight: 'bold', width: '300px',color:"var(--imp-text)"}}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <span style={{fontSize:"1.2rem"}}>Basics:</span>
           </Box>
@@ -171,7 +175,6 @@ const sections = [
         sx={{
           textAlign: "center",
           py: 6,
-          // opacity: 0.9,
         }}
       >
         <Typography
@@ -179,6 +182,7 @@ const sections = [
           sx={{
             fontWeight: 700,
             color: "white",
+            // backgroundImage: "var(--gradient-primary)"
           }}
         >
           Hi, I’m Muskan Pandey

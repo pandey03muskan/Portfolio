@@ -1,15 +1,48 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
 
+/* theme.css */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+
+  --gradient-primary: linear-gradient(135deg, hsl(323, 41%, 76%), hsl(335, 23%, 75%));
+  --gradient-card-spotlight: linear-gradient(145deg, hsl(322, 28%, 72%), hsl(323, 100%, 94%));
+  --gradient-hero: linear-gradient(135deg, hsl(48 100% 98%), hsl(45 100% 95%));
+
+  --imp-text:hsl(343, 34%, 58%);
+  --normal-text: hsl(0, 0%, 24%);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.dark {
+  /* Dark theme - Purple palette */
+  --background: 260 15% 8%;
+  --foreground: 0 0% 95%;
+  --card: 260 20% 12%;
+  --card-foreground: 0 0% 95%;
+  --popover: 260 20% 12%;
+  --popover-foreground: 0 0% 95%;
+  --primary: 270 100% 70%;
+  --primary-foreground: 260 15% 8%;
+  --secondary: 260 15% 15%;
+  --secondary-foreground: 0 0% 90%;
+  --muted: 260 15% 15%;
+  --muted-foreground: 0 0% 65%;
+  --accent: 280 100% 80%;
+  --accent-foreground: 260 15% 8%;
+  --destructive: 0 75% 60%;
+  --destructive-foreground: 0 0% 95%;
+  --border: 260 15% 20%;
+  --input: 260 15% 18%;
+  --ring: 270 100% 70%;
+
+  --hero-bg: 260 20% 10%;
+  --section-bg: 260 15% 6%;
+  --card-hover: 260 25% 16%;
+
+  --gradient-primary: linear-gradient(135deg, rgb(63, 73, 116), rgb(31, 96, 116));
+  --gradient-card-spotlight:  hsl(206, 33%, 43%);
+
+  --imp-text:hsl(169, 73%, 54%);
+  --normal-text: hsl(180, 29%, 97%);
 }
 
 html,
@@ -19,14 +52,6 @@ body {
   margin: 0;
   padding: 0;
   overflow-y: auto;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: "Montserrat", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 * {
@@ -52,10 +77,10 @@ a {
   cursor: pointer;
 }
 
-.iconHover:hover svg {
+/* .iconHover:hover svg {
   color: #00ffff;
   fill: #00ffff;
   cursor: pointer;
-}
+} */
 
 

@@ -8,7 +8,7 @@ import { useRef } from "react";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { theme } = useTheme();
-  const backgroundVideo = theme === "dark" ? "/darkback1.mp4" : "/lightback1.mp4";
+  const backgroundVideo = theme === "dark" ? "/darkback1.mp4" : "/light.mp4";
   const containerRef = useRef<HTMLDivElement>(null);
   return (
     <>
@@ -73,7 +73,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               sx={{
                   width: "100%",
                   minHeight: "100vh",
-                  backgroundColor: "#083a55",
+                  backgroundImage: "var(--gradient-primary)",
                   position: "relative",
                   padding: "2rem 0",
                   borderRadius: "9px",

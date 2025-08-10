@@ -1,75 +1,3 @@
-// "use client";
-
-// import { useMotionValue, motion, useMotionTemplate } from "framer-motion";
-// import React, { MouseEvent as ReactMouseEvent } from "react";
-// import Box from "@mui/material/Box";
-
-// export const CardSpotlight = ({
-//   children,
-//   radius = 350,
-//   spotlightColor = "rgba(0, 255, 255, 0.4)", // ✅ Simple cyan glow
-//   sx,
-//   ...props
-// }: {
-//   radius?: number;
-//   spotlightColor?: string;
-//   children: React.ReactNode;
-//   sx?: object;
-// } & React.HTMLAttributes<HTMLDivElement>) => {
-//   const mouseX = useMotionValue(0);
-//   const mouseY = useMotionValue(0);
-
-//   function handleMouseMove({
-//     currentTarget,
-//     clientX,
-//     clientY,
-//   }: ReactMouseEvent<HTMLDivElement>) {
-//     const { left, top } = currentTarget.getBoundingClientRect();
-//     mouseX.set(clientX - left);
-//     mouseY.set(clientY - top);
-//   }
-
-//   return (
-//     <Box
-//       onMouseMove={handleMouseMove}
-//       sx={{
-//         position: "relative",
-//         borderRadius: "12px",
-//         overflow: "hidden",
-//         background: "#083a55", // ✅ Base background
-//         ...sx,
-//       }}
-//       {...props}
-//     >
-//       {/* 🔵 Spotlight */}
-//       <motion.div
-//         style={{
-//           position: "absolute",
-//           inset: 0,
-//           background: spotlightColor,
-//           pointerEvents: "none",
-//           zIndex: 0,
-//           WebkitMaskImage: useMotionTemplate`
-//             radial-gradient(
-//               ${radius}px circle at ${mouseX}px ${mouseY}px,
-//               white,
-//               transparent 70%
-//             )
-//           `,
-//           WebkitMaskRepeat: "no-repeat",
-//           WebkitMaskSize: "cover",
-//         }}
-//       />
-
-//       {/* ✅ Content Layer */}
-//       <Box sx={{ position: "relative", zIndex: 1, p: 3}}>
-//         {children}
-//       </Box>
-//     </Box>
-//   );
-// };
-
-
 "use client";
 
 import { useMotionValue, motion, useMotionTemplate } from "framer-motion";
@@ -79,7 +7,8 @@ import Box from "@mui/material/Box";
 export const CardSpotlight = ({
   children,
   radius = 350,
-  spotlightColor = "rgba(34, 174, 174, 0.4)",
+  // spotlightColor = "rgba(34, 174, 174, 0.4)",
+  spotlightColor = "var(--gradient-card-spotlight)",
   sx,
   ...props
 }: {

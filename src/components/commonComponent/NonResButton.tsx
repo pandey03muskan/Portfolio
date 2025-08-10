@@ -28,12 +28,16 @@ const CustomButton = ({ title, icon }: CustomButtonProps) => {
           alignItems: "center",
           // color: "#083a55",
           marginRight: "8px",
-          color:"#00FFFF"
+          color:"var(--imp-text)"
         }}
       >
         {icon}
       </Box>
-      <Typography variant="body1" sx={{ color: "white", fontWeight: 500 }}>
+      <Typography 
+      variant="body1" 
+      sx={{ 
+        color: "var(--normal-text)",
+        fontWeight: 500 }}>
         {title}
       </Typography>
     </Box>
