@@ -63,7 +63,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               position: "relative",
               zIndex: 1,
               width: "100%",
-              paddingX: "6rem",
+              paddingX: { xs: "1rem", sm: "1.5rem", md: "6rem" },
               paddingTop: "7rem",
               paddingBottom: "4rem",
               flexGrow: 1,
@@ -87,7 +87,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                     position: "relative",
                     zIndex: 1,
                     width: "100%",
-                    // margin: "auto",
                   }}
                 >
                       {children}

@@ -4,27 +4,32 @@ import Link from "next/link";
 
 const navItems = [
   { label: "Home", 
-    icon: <Icon icon="streamline-flex:home-2" width="30" height="30" />,
+    icon: (<Box sx={{ fontSize: { xs: "0.8rem", sm: "1rem", md: "1.3rem" } }}>
+  <Icon icon="streamline-flex:home-2" style={{ fontSize: "inherit" }} />
+</Box>),
     path: "/home"
   },
   { label: "Projects", 
-    icon: <Icon icon="fluent:projection-screen-24-regular" width="30" height="30" />,
+    icon: (<Box sx={{ fontSize: { xs: "0.8rem", sm: "1rem", md: "1.3rem" } }}>
+  <Icon icon="fluent:projection-screen-24-regular" style={{ fontSize: "inherit" }} />
+</Box>),
     path: "/project"
   },
   { label: "Today’sSpark", 
-    icon: <Icon icon="fluent:sparkle-28-regular" width="30" height="30" />,
+    icon: (<Box sx={{ fontSize: { xs: "0.8rem", sm: "1rem", md: "1.3rem" } }}>
+  <Icon icon="fluent:sparkle-28-regular" style={{ fontSize: "inherit" }} />
+</Box>),
     path: "/blog"
   },
 ];
 
 const Navigation = () => {
-  // console.log("color changed",hsl(var(--gradient-primary)));
   return (
     <Box
       sx={{
         position: "fixed",
         top: "1rem",
-        maxWidth: "500px",
+        maxWidth: {xs:"350px",sm:"450px",md:"600px"},
         backgroundColor: "rgba(255, 255, 255, 0.1)",
         backdropFilter: "blur(10px)",
         borderRadius: "2rem",
@@ -57,14 +62,14 @@ const Navigation = () => {
               transition: "color 0.3s ease",
               display: "flex",
               alignItems: "center",
-              gap: 1,
+              gap: {md:1},
               "&:hover": {
                 color: "var(--imp-text)",
               },
             }}
           >
             {icon}
-            <Typography variant="body1" sx={{fontSize: "1rem"}}>
+            <Typography variant="body1" sx={{fontSize:{xs:"0.8rem",sm:"0.9rem",md:"1rem"}}}>
               {label}
             </Typography>
           </ListItem>

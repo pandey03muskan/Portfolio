@@ -65,9 +65,7 @@ export const CardSpotlight = ({
       sx={{ 
         position: "relative",
         zIndex: 1, 
-        // p: 3,
         margin: "1.2rem 1rem",
-        // width:"100%" 
         }}>
         {children}
       </Box>
