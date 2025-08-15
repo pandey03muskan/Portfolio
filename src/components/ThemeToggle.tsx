@@ -7,7 +7,6 @@ const ThemeToggle = () => {
   return (
     <Box
       onClick={toggleTheme}
-      // variant="outlined"
       sx={{ position: "fixed", top: "2.2rem", right: 16, zIndex: 20,cursor:"pointer"}}
     >
       <Icon 

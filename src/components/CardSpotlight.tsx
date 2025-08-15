@@ -6,8 +6,7 @@ import Box from "@mui/material/Box";
 
 export const CardSpotlight = ({
   children,
-  radius = 350,
-  // spotlightColor = "rgba(34, 174, 174, 0.4)",
+  radius = 200,
   spotlightColor = "var(--gradient-card-spotlight)",
   sx,
   ...props
@@ -37,7 +36,6 @@ export const CardSpotlight = ({
         position: "relative",
         borderRadius: "12px",
         overflow: "hidden",
-        // background: "#084455ff", // ✅ Base background
         ...sx,
       }}
       {...props}
@@ -63,7 +61,16 @@ export const CardSpotlight = ({
       />
 
       {/* ✅ Content Layer */}
-      <Box sx={{ position: "relative", zIndex: 1, p: 3 }}>{children}</Box>
+      <Box 
+      sx={{ 
+        position: "relative",
+        zIndex: 1, 
+        // p: 3,
+        margin: "1.2rem 1rem",
+        // width:"100%" 
+        }}>
+        {children}
+      </Box>
 
       {/* 🌊 Floating Animation */}
       <style>

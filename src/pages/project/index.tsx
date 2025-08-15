@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography, Button, Chip, Stack } from "@mui/material";
+import { useTheme } from "@/context/themecontext";
 import { CardSpotlight } from "@/components/CardSpotlight";
 const projects = [
   {
@@ -88,6 +89,8 @@ const projects = [
 
 const ProjectsSection = () => {
   const [active,setActive] = useState("Zaika Zunction");
+  const theme = useTheme();
+  const isDark = theme.theme === "dark";
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -125,7 +128,7 @@ const ProjectsSection = () => {
             variant="h3"
             sx={{
               fontWeight: 700,
-              color: "white",
+              color: "var(--imp-text)",
             }}
           >
             Projects
@@ -134,7 +137,7 @@ const ProjectsSection = () => {
             variant="body1"
             sx={{
               mt: 2,
-              color:"white",
+              color: "var(--imp-text)",
               fontWeight: 600,
               fontSize:"1.1rem"
             }}
@@ -149,7 +152,7 @@ const ProjectsSection = () => {
             gap: 6,
           }}
         >
-          {projects.map((project) => {
+        {projects.map((project) => {
             const isActive = active === project.name;
             return (
         <Box
@@ -160,14 +163,16 @@ const ProjectsSection = () => {
             overflow: "hidden",
             transition: "box-shadow 0.5s, transform 0.5s",
             transform: isActive ? "scale(1.02)" : "scale(1)",
-            border: "1px solid grey",
+            border: "1px solid rgba(255, 255, 255, 0.15)",
+            boxShadow: "rgba(17, 12, 46, 0.15) 0px 48px 100px 0px",
             borderRadius: "0.75rem",
-            padding: "1.5rem 1.5rem",
+            padding: "1.5rem 1.3rem",
             minHeight: "250px",
+            margin:"1.2rem 0rem",
 
             // 👇 Hover style: affect the h5 inside when hovered
             "&:hover h5": {
-              color: "#00ffff",
+              color: "var(--imp-text)",
             },
           }}
         >
@@ -183,6 +188,28 @@ const ProjectsSection = () => {
               zIndex: 0,
             }}
           />
+                {/* 🔲 Subtle Grid Overlay */}
+                <Box
+                  sx={{
+                    position: "absolute",
+                    inset: 0,
+                    backgroundImage: isDark? 
+                    `
+                      linear-gradient(to right, rgba(255,255,255,0.07) 1px, transparent 1px),
+                      linear-gradient(to bottom, rgba(255,255,255,0.07) 1px, transparent 1px)
+                    ` 
+                    : 
+                    `
+                      linear-gradient(to right, rgba(255, 255, 255, 0.27) 1px, transparent 1px),
+                      linear-gradient(to bottom, rgba(241, 236, 239, 0.26) 1px, transparent 1px)
+                    ` 
+                    ,
+                    backgroundSize: "20px 20px", // ✅ size of squares (adjust as needed)
+                    pointerEvents: "none",
+                    zIndex: 0,
+                  }}
+                />
+
                 <Box sx={{ position: "relative", zIndex: 1 }}>
                   <Typography
                     variant="h5"
@@ -198,7 +225,7 @@ const ProjectsSection = () => {
                     {project.name}
                   </Typography>
 
-                  <Box sx={{ color: "rgb(209 213 219)", mb: 2 }}>
+                  <Box sx={{ color: "var(--normal-text)", mb: 2 }}>
                     {project.description}
                   </Box>
 
@@ -209,8 +236,8 @@ const ProjectsSection = () => {
                         label={tech}
                         size="small"
                         sx={{
-                          border: "1px solid #00ffff",
-                          color: "#00ffff",
+                          border: "1px solid var(--imp-text)",
+                          color: "var(--imp-text)",
                           opacity:0.8,
                           borderRadius: "9px",
                           padding:'1rem 0.5rem'
@@ -224,10 +251,10 @@ const ProjectsSection = () => {
                       <Button
                         variant="outlined"
                         sx={{
-                          color:"#00FFFF",
-                          borderColor: "#00FFFF", // Add this line
+                          color:"var(--imp-text)",
+                          borderColor: "var(--imp-text)", // Add this line
                           '&:hover': {
-                            borderColor: "#00FFFF", // Optional: ensures hover state stays consistent
+                            borderColor: "var(--imp-text)", // Optional: ensures hover state stays consistent
                             backgroundColor: 'rgba(0, 255, 255, 0.04)', // Optional: subtle hover effect
                           },
                         }}
@@ -245,10 +272,10 @@ const ProjectsSection = () => {
                         variant="outlined"
                         // color="secondary"
                         sx={{
-                          color:"#00FFFF",
-                          borderColor: "#00FFFF", // Add this line
+                          color:"var(--imp-text)",
+                          borderColor: "var(--imp-text)", // Add this line
                           '&:hover': {
-                            borderColor: "#00FFFF", // Optional: ensures hover state stays consistent
+                            borderColor: "var(--imp-text)", // Optional: ensures hover state stays consistent
                             backgroundColor: 'rgba(0, 255, 255, 0.04)', // Optional: subtle hover effect
                           },
                         }}

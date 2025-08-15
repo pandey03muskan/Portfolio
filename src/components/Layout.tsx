@@ -75,7 +75,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                   minHeight: "100vh",
                   backgroundImage: "var(--gradient-primary)",
                   position: "relative",
-                  padding: "2rem 0",
+                  padding: "2rem 1.5rem",
                   borderRadius: "9px",
               }}
               >
@@ -86,9 +86,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                   sx={{
                     position: "relative",
                     zIndex: 1,
-                    width: "85%",
-                    maxWidth: "1100px",
-                    margin: "auto",
+                    width: "100%",
+                    // margin: "auto",
                   }}
                 >
                       {children}

@@ -30,13 +30,24 @@ const sections = [
        <div style={{paddingTop:"1.5rem", display:"flex", gap:1}}>
             <div style={{fontSize:"1.3rem"}}>Find me on</div>
             <div style={{marginLeft:"20px"}}>
-              <a className="iconHover" href="https://github.com/pandey03muskan" style={{marginRight:"10px"}}>
+              <a 
+              className="iconHover" 
+              href="https://github.com/pandey03muskan" 
+              style={{marginRight:"10px",fontSize:"1.4rem"}}>
               <Icon icon="ri:github-fill"/>
               </a>
-              <a className="iconHover" href="https://www.linkedin.com/in/muskan-pandey-36661a220/" style={{marginRight:"10px"}}>
+              <a 
+              className="iconHover" 
+              href="https://www.linkedin.com/in/muskan-pandey-36661a220/" 
+              style={{marginRight:"10px",fontSize:"1.4rem"}}
+              >
                <Icon icon="prime:linkedin"/>
               </a>
-              <a className="iconHover" href="https://drive.google.com/file/d/13s68bVROFS9EaOLZITjnzJb1DwhnIEVO/view?usp=sharing">
+              <a 
+              className="iconHover"
+              href="https://drive.google.com/file/d/13s68bVROFS9EaOLZITjnzJb1DwhnIEVO/view?usp=sharing"
+              style={{fontSize:"1.4rem"}}
+              >
                <Icon icon="mingcute:drive-line"/>
               </a>
             </div>
@@ -181,7 +192,7 @@ const sections = [
           variant="h3"
           sx={{
             fontWeight: 700,
-            color: "white",
+            color: "var(--imp-text)",
             // backgroundImage: "var(--gradient-primary)"
           }}
         >
@@ -191,7 +202,7 @@ const sections = [
           variant="body1"
           sx={{
             mt: 2,
-            color: "white",
+            color: "var(--imp-text)",
             fontWeight: 600,
             fontSize: "1.1rem",
           }}

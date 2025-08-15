@@ -26,7 +26,6 @@ const CustomButton = ({ title, icon }: CustomButtonProps) => {
         sx={{
           display: "flex",
           alignItems: "center",
-          // color: "#083a55",
           marginRight: "8px",
           color:"var(--imp-text)"
         }}

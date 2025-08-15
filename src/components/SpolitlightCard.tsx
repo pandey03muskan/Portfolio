@@ -34,13 +34,11 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ section, isActive }) => {
         sx={{
           position: "relative",
           zIndex: 10,
-          // backgroundColor: isDark
-          //   ? "rgba(255, 255, 255, 0.08)"
-          //   : "rgba(183, 183, 192, 0.15)",
-          backdropFilter: "blur(10px)",
+          // backdropFilter: "blur(10px)",
           borderRadius: "12px",
           paddingY: "2rem",
           paddingX: "1rem",
+          // margin:"1.2rem 0rem",
           boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
           border: "1px solid rgba(255, 255, 255, 0.15)",
           overflow: "hidden",

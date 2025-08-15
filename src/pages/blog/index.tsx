@@ -54,7 +54,7 @@ const BlogCards = () => {
             variant="h3"
             sx={{
               fontWeight: 700,
-              color: "white",
+              color: "var(--imp-text)",
             }}
           >
             Today&apos;s Spark
@@ -63,7 +63,7 @@ const BlogCards = () => {
             variant="body1"
             sx={{
               mt: 2,
-              color:"white",
+              color:"var(--imp-text)",
               fontWeight: 600,
               fontSize:"1.1rem"
             }}
@@ -115,22 +115,22 @@ const BlogCards = () => {
                       remarkPlugins={[remarkGfm]}
                       components={{
                         h1: ({ children }) => (
-                          <Box component="h1" sx={{ fontSize: '1.8rem', fontWeight: 'bold', color: '#fff', mt: 2, mb: 1 }}>
+                          <Box component="h1" sx={{ fontSize: '1.8rem', fontWeight: 'bold', color: "var(--imp-text)", mt: 2, mb: 1 }}>
                             {children}
                           </Box>
                         ),
                         h2: ({ children }) => (
-                          <Box component="h2" sx={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#fff', mt: 2, mb: 1 }}>
+                          <Box component="h2" sx={{ fontSize: '1.5rem', fontWeight: 'bold', color: "var(--imp-text)", mt: 2, mb: 1 }}>
                             {children}
                           </Box>
                         ),
                         h3: ({ children }) => (
-                          <Box component="h3" sx={{ fontSize: '1.1rem', fontWeight: 600, color: '#fff', mt: 2, mb: 1 }}>
+                          <Box component="h3" sx={{ fontSize: '1.1rem', fontWeight: 600, color: "var(--imp-text)", mt: 2, mb: 1 }}>
                             {children}
                           </Box>
                         ),
                         p: ({ children }) => (
-                          <Box component="p" sx={{ color: '#ddd', mb: 1 }}>
+                          <Box component="p" sx={{ color: "var(--normal-text)", mb: 1 }}>
                             {children}
                           </Box>
                         ),
@@ -139,8 +139,8 @@ const BlogCards = () => {
                             component="code"
                             sx={{
                               fontFamily: 'monospace',
-                              backgroundColor: '#0e4a69',
-                              color: 'rgb(0, 255, 255)',
+                              backgroundColor: "var(--imp-background)",
+                              color: "var(--imp-text)",
                               padding: '2px 6px',
                               borderRadius: '4px',
                               fontSize: '0.875rem',
@@ -153,8 +153,8 @@ const BlogCards = () => {
                           <Box
                             component="pre"
                             sx={{
-                              backgroundColor: '#0e4a69',
-                              color: 'rgb(0, 255, 255)',
+                              backgroundColor: "var(--imp-background)",
+                              color: "var(--imp-text)",
                               padding: '12px',
                               borderRadius: '6px',
                               overflowX: 'auto',
@@ -170,7 +170,7 @@ const BlogCards = () => {
                           </Box>
                         ),
                         thead: ({ children }) => (
-                          <Box component="thead" sx={{ bgcolor: '#23d7d7ff', color: '#fff', opacity: 0.8 }}>
+                          <Box component="thead" sx={{ bgcolor: "var(--imp-text)", color: "var(--normal-text)", opacity: 0.8 }}>
                             {children}
                           </Box>
                         ),
@@ -181,22 +181,22 @@ const BlogCards = () => {
                           </Box>
                         ),
                         th: ({ children }) => (
-                          <Box component="th" sx={{ padding: '8px', textAlign: 'left', color: '#fff' }}>
+                          <Box component="th" sx={{ padding: '8px', textAlign: 'left', color: "var(--normal-text)" }}>
                             {children}
                           </Box>
                         ),
                         td: ({ children }) => (
-                          <Box component="td" sx={{ padding: '8px', color: '#ddd' }}>
+                          <Box component="td" sx={{ padding: '8px', color: "var(--normal-text)" }}>
                             {children}
                           </Box>
                         ),
                         li: ({ children }) => (
-                          <Box component="li" sx={{ color: '#ddd', pl: 1.5, mb: 0.5 }}>
+                          <Box component="li" sx={{ color: "var(--normal-text)", pl: 1.5, mb: 0.5 }}>
                             {children}
                           </Box>
                         ),
                         strong: ({ children }) => (
-                          <Box component="strong" sx={{ color: 'rgb(0, 255, 255)' }}>
+                          <Box component="strong" sx={{ color: "var(--imp-text)" }}>
                             {children}
                           </Box>
                         ),
@@ -210,7 +210,7 @@ const BlogCards = () => {
                   <Typography
                     variant="caption"
                     sx={{
-                      color: "#bbb",
+                      color: "var(--normal-text)",
                       mt: 5,
                       display: "flex",
                       alignItems: "center",
@@ -220,7 +220,7 @@ const BlogCards = () => {
                     }}
                   >
                     <span style={{fontSize:"1rem",fontWeight:"bold"}}>{section?.date}</span>
-                    <Box sx={{ width: 4, height: 4, bgcolor: "#bbb", borderRadius: "50%" }} />
+                    <Box sx={{ width: 4, height: 4, bgcolor: "var(--normal-text)", borderRadius: "50%" }} />
                     <span style={{fontSize:"1rem",fontWeight:"bold"}}>{section?.time}</span>
                   </Typography>
 
