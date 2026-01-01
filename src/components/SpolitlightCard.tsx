@@ -27,7 +27,7 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ section, isActive }) => {
     <CardSpotlight
       radius={400}
       color = "var(--normal-text)"
-      className="relative border border-neutral-700 bg-black/90 rounded-xl shadow-lg"
+      className={`relative rounded-xl shadow-lg ${isDark ? "border border-neutral-700 bg-black/90" : "border border-gray-300 bg-white/95"}`}
     >
       {/* 📝 Content Layer */}
       <Box
@@ -39,8 +39,8 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ section, isActive }) => {
           paddingY: "2rem",
           paddingX: "1rem",
           // margin:"1.2rem 0rem",
-          boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
-          border: "1px solid rgba(255, 255, 255, 0.15)",
+          boxShadow: isDark ? "0 4px 12px rgba(0,0,0,0.3)" : "0 4px 12px rgba(0,0,0,0.1)",
+          border: isDark ? "1px solid rgba(255, 255, 255, 0.15)" : "1px solid rgba(0, 0, 0, 0.1)",
           overflow: "hidden",
         }}
       >
@@ -56,8 +56,8 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ section, isActive }) => {
             ` 
             : 
             `
-              linear-gradient(to right, rgba(255, 255, 255, 0.27) 1px, transparent 1px),
-              linear-gradient(to bottom, rgba(241, 236, 239, 0.26) 1px, transparent 1px)
+              linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px)
             ` 
             ,
             backgroundSize: "20px 20px", // ✅ size of squares (adjust as needed)
@@ -76,7 +76,7 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ section, isActive }) => {
             mb: 2,
             color: "var(--normal-text)",
             gap: 1,
-            opacity: 0.9,
+            opacity: isDark ? 0.9 : 1,
             position: "relative",
             zIndex: 1,
           }}
@@ -91,7 +91,7 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ section, isActive }) => {
           sx={{
             color: "var(--normal-text)",
             fontSize: "1.1rem",
-            opacity: 0.8,
+            opacity: isDark ? 0.8 : 0.95,
             position: "relative",
             zIndex: 1,
           }}

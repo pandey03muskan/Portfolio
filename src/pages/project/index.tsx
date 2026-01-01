@@ -113,8 +113,8 @@ const ProjectsSection = () => {
     <Box>
       <CardSpotlight
         radius={400}
-        color="#1a1a1a"
-        className="relative border border-neutral-700 bg-black/90 rounded-xl shadow-lg"
+        color={isDark ? "#1a1a1a" : "var(--normal-text)"}
+        className={`relative rounded-xl shadow-lg ${isDark ? "border border-neutral-700 bg-black/90" : "border border-gray-300 bg-white/95"}`}
       >
        {/* Hero Section */}
         <Box
@@ -155,7 +155,7 @@ const ProjectsSection = () => {
         {projects.map((project) => {
             const isActive = active === project.name;
             return (
-        <Box
+          <Box
           key={project.name}
           id={project.name}
           sx={{
@@ -163,8 +163,8 @@ const ProjectsSection = () => {
             overflow: "hidden",
             transition: "box-shadow 0.5s, transform 0.5s",
             transform: isActive ? "scale(1.02)" : "scale(1)",
-            border: "1px solid rgba(255, 255, 255, 0.15)",
-            boxShadow: "rgba(17, 12, 46, 0.15) 0px 48px 100px 0px",
+            border: isDark ? "1px solid rgba(255, 255, 255, 0.15)" : "1px solid rgba(0, 0, 0, 0.1)",
+            boxShadow: isDark ? "rgba(17, 12, 46, 0.15) 0px 48px 100px 0px" : "rgba(0, 0, 0, 0.08) 0px 48px 100px 0px",
             borderRadius: "0.75rem",
             padding: "1.5rem 1.3rem",
             minHeight: "250px",
@@ -200,8 +200,8 @@ const ProjectsSection = () => {
                     ` 
                     : 
                     `
-                      linear-gradient(to right, rgba(255, 255, 255, 0.27) 1px, transparent 1px),
-                      linear-gradient(to bottom, rgba(241, 236, 239, 0.26) 1px, transparent 1px)
+                      linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+                      linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px)
                     ` 
                     ,
                     backgroundSize: "20px 20px", // ✅ size of squares (adjust as needed)
@@ -216,7 +216,7 @@ const ProjectsSection = () => {
                     sx={{
                       fontWeight: 500,
                       mb: 2,
-                      color: "white",
+                      color: "var(--normal-text)",
                       display: "flex",
                       alignItems: "center",
                       gap: 1,

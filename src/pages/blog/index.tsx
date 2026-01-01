@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { Box, Typography } from "@mui/material";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm';
+import { useTheme } from "@/context/themecontext";
 
 const documents = [
   {
     id: "1",
     title: "JavaScript Learning DAY :01",
     description: `
-## Array
+ ## Array
 
 ### Two ways to declare an Array
 
@@ -79,7 +80,7 @@ new Promise(resolve => setTimeout(resolve, 1000))
 `,
     image: "",
     time: "9:30 PM",
-    date: "July 23, 2025"
+    date: "July 25, 2025"
   },
   {
     id: "3",
@@ -135,7 +136,7 @@ function useCounter(initialValue = 0) {
 `,
     image: "",
     time: "8:45 PM",
-    date: "July 24, 2025"
+    date: "July 28, 2025"
   },
   {
     id: "4",
@@ -188,7 +189,7 @@ Grid is a two-dimensional layout system, perfect for complex layouts.
 `,
     image: "",
     time: "11:20 PM",
-    date: "July 25, 2025"
+    date: "July 31, 2025"
   },
   {
     id: "5",
@@ -261,7 +262,7 @@ for (let i = 0; i < 3; i++) {
 `,
     image: "",
     time: "7:50 PM",
-    date: "July 26, 2025"
+    date: "August 3, 2025"
   },
   {
     id: "6",
@@ -333,13 +334,15 @@ async function createPost(formData: FormData) {
 `,
     image: "",
     time: "10:00 PM",
-    date: "July 27, 2025"
+    date: "August 7, 2025"
   }
 ];
 
 
 const BlogCards = () => {
   const [active, setActive] = useState(""); // Optional, for highlighting
+  const theme = useTheme();
+  const isDark = theme.theme === "dark";
 
   return (
     <>
@@ -386,11 +389,13 @@ const BlogCards = () => {
                   overflow: "hidden",
                   transition: "box-shadow 0.5s, transform 0.5s",
                   transform: isActive ? "scale(1.02)" : "scale(1)",
-                  border: "1px solid grey",
+                  border: isDark ? "1px solid rgba(255, 255, 255, 0.2)" : "1px solid rgba(0, 0, 0, 0.15)",
                   borderRadius: "0.75rem",
                   padding: "1.5rem 1rem",
                   minHeight: "250px",
                   mb: 2,
+                  backgroundColor: isDark ? "rgba(0, 0, 0, 0.3)" : "rgba(255, 255, 255, 0.7)",
+                  backdropFilter: "blur(10px)",
                 }}
               >
                 {/* Spotlight overlay */}
@@ -407,7 +412,7 @@ const BlogCards = () => {
                 />
 
                 <Box sx={{ position: "relative", zIndex: 1 }}>
-                  <Typography sx={{padding:"1rem",fontSize:"1.5rem",color: "white",fontWeight:"600"}}>
+                  <Typography sx={{padding:"1rem",fontSize:"1.5rem",color: "var(--normal-text)",fontWeight:"600"}}>
                     {section?.title}
                   </Typography>
 

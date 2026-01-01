@@ -1,6 +1,7 @@
 import { Box, List, ListItem, Typography } from "@mui/material";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
+import { useTheme } from "@/context/themecontext";
 
 const navItems = [
   { label: "Home", 
@@ -15,7 +16,7 @@ const navItems = [
 </Box>),
     path: "/project"
   },
-  { label: "Today’sSpark", 
+  { label: "Today's Spark", 
     icon: (<Box sx={{ fontSize: { xs: "0.8rem", sm: "1rem", md: "1.3rem" } }}>
   <Icon icon="fluent:sparkle-28-regular" style={{ fontSize: "inherit" }} />
 </Box>),
@@ -24,21 +25,24 @@ const navItems = [
 ];
 
 const Navigation = () => {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+  
   return (
     <Box
       sx={{
         position: "fixed",
         top: "1rem",
         maxWidth: {xs:"350px",sm:"450px",md:"600px"},
-        backgroundColor: "rgba(255, 255, 255, 0.1)",
+        backgroundColor: isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(255, 255, 255, 0.85)",
         backdropFilter: "blur(10px)",
         borderRadius: "2rem",
         display: "flex",
         justifyContent: "center",
         paddingY: "0.7rem",
-        boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+        boxShadow: isDark ? "0 4px 12px rgba(0,0,0,0.3)" : "0 4px 12px rgba(0,0,0,0.1)",
         zIndex: 10,
-        border: "1px solid rgba(255, 255, 255, 0.2)",
+        border: isDark ? "1px solid rgba(255, 255, 255, 0.2)" : "1px solid rgba(0, 0, 0, 0.1)",
       }}
     >
       <List
