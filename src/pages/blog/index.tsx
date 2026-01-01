@@ -8,7 +8,7 @@ const documents = [
     id: "1",
     title: "JavaScript Learning DAY :01",
     description: `
- ## Array
+## Array
 
 ### Two ways to declare an Array
 
@@ -32,7 +32,308 @@ const documents = [
 `,
     image: "",
     time: "10:15 PM",
-    date: "July 22,2025"
+    date: "July 22, 2025"
+  },
+  {
+    id: "2",
+    title: "JavaScript Learning DAY :02",
+    description: `
+## Event Loop & Async JavaScript
+
+### Understanding the Call Stack
+
+JavaScript is single-threaded, meaning it has one call stack and can only execute one thing at a time. The call stack tracks function calls.
+
+### Event Loop Mechanism
+
+The event loop continuously checks:
+1. **Call Stack** - Is it empty?
+2. **Callback Queue** - Are there any callbacks waiting?
+
+When the call stack is empty, it moves callbacks from the queue to the stack.
+
+### Promises vs Callbacks
+
+\`\`\`javascript
+// Callback (older approach)
+setTimeout(() => {
+  console.log("First");
+  setTimeout(() => {
+    console.log("Second");
+  }, 1000);
+}, 1000);
+
+// Promise (better approach)
+new Promise(resolve => setTimeout(resolve, 1000))
+  .then(() => {
+    console.log("First");
+    return new Promise(resolve => setTimeout(resolve, 1000));
+  })
+  .then(() => console.log("Second"));
+\`\`\`
+
+### Microtasks vs Macrotasks
+
+- **Microtasks** (Promise.then, queueMicrotask) - Executed after current task, before next macrotask
+- **Macrotasks** (setTimeout, setInterval) - Executed after all microtasks
+`,
+    image: "",
+    time: "9:30 PM",
+    date: "July 23, 2025"
+  },
+  {
+    id: "3",
+    title: "JavaScript Learning DAY :03",
+    description: `
+## React Hooks Deep Dive
+
+### useState Hook
+
+\`useState\` is a Hook that lets you add React state to function components.
+
+\`\`\`javascript
+const [count, setCount] = useState(0);
+
+// Previous state update
+setCount(prevCount => prevCount + 1);
+\`\`\`
+
+### useEffect Hook
+
+\`useEffect\` lets you perform side effects in function components. It's like \`componentDidMount\`, \`componentDidUpdate\`, and \`componentWillUnmount\` combined.
+
+\`\`\`javascript
+useEffect(() => {
+  // Side effect
+  document.title = \`Count: \${count}\`;
+
+  // Cleanup (optional)
+  return () => {
+    document.title = "React App";
+  };
+}, [count]); // Dependencies array
+\`\`\`
+
+### Common Patterns
+
+- **Empty dependency array**: Run once on mount
+- **No dependency array**: Run on every render
+- **With dependencies**: Run when dependencies change
+
+### Custom Hooks
+
+Extract component logic into reusable functions:
+
+\`\`\`javascript
+function useCounter(initialValue = 0) {
+  const [count, setCount] = useState(initialValue);
+  const increment = () => setCount(c => c + 1);
+  const decrement = () => setCount(c => c - 1);
+  return { count, increment, decrement };
+}
+\`\`\`
+`,
+    image: "",
+    time: "8:45 PM",
+    date: "July 24, 2025"
+  },
+  {
+    id: "4",
+    title: "Frontend Learning DAY :04",
+    description: `
+## CSS Flexbox & Grid
+
+### Flexbox Basics
+
+Flexbox is a one-dimensional layout method for laying out items in rows or columns.
+
+\`\`\`css
+.container {
+  display: flex;
+  justify-content: center; /* Main axis */
+  align-items: center;     /* Cross axis */
+  flex-direction: row;     /* row | column */
+  gap: 1rem;
+}
+\`\`\`
+
+### Key Properties
+
+- **justify-content**: Aligns items along the main axis
+- **align-items**: Aligns items along the cross axis
+- **flex-wrap**: Allows items to wrap to next line
+- **flex-grow/shrink/basis**: Controls item sizing
+
+### CSS Grid
+
+Grid is a two-dimensional layout system, perfect for complex layouts.
+
+\`\`\`css
+.container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  gap: 1rem;
+  grid-template-areas:
+    "header header header"
+    "sidebar main main"
+    "footer footer footer";
+}
+\`\`\`
+
+### When to Use What?
+
+- **Flexbox**: One-dimensional layouts (navigation, cards in a row)
+- **Grid**: Two-dimensional layouts (page layouts, complex designs)
+`,
+    image: "",
+    time: "11:20 PM",
+    date: "July 25, 2025"
+  },
+  {
+    id: "5",
+    title: "JavaScript Learning DAY :05",
+    description: `
+## Closures & Scope
+
+### What is a Closure?
+
+A closure is a function that has access to variables in its outer (enclosing) lexical scope, even after the outer function has returned.
+
+\`\`\`javascript
+function outerFunction(x) {
+  // Outer function's scope
+  return function innerFunction(y) {
+    // Inner function has access to x
+    return x + y;
+  };
+}
+
+const addFive = outerFunction(5);
+console.log(addFive(10)); // 15
+\`\`\`
+
+### Scope Chain
+
+JavaScript uses lexical scoping (static scoping), meaning the scope is determined by where variables are declared in the code.
+
+### Practical Use Cases
+
+**1. Data Privacy / Module Pattern**
+
+\`\`\`javascript
+const counter = (function() {
+  let count = 0;
+  return {
+    increment: () => ++count,
+    decrement: () => --count,
+    getCount: () => count
+  };
+})();
+\`\`\`
+
+**2. Function Factories**
+
+\`\`\`javascript
+function createMultiplier(multiplier) {
+  return function(number) {
+    return number * multiplier;
+  };
+}
+
+const double = createMultiplier(2);
+const triple = createMultiplier(3);
+\`\`\`
+
+### Common Pitfall: Loop with Closures
+
+\`\`\`javascript
+// ❌ Wrong - all log same value
+for (var i = 0; i < 3; i++) {
+  setTimeout(() => console.log(i), 1000);
+}
+
+// ✅ Correct - use let or IIFE
+for (let i = 0; i < 3; i++) {
+  setTimeout(() => console.log(i), 1000);
+}
+\`\`\`
+`,
+    image: "",
+    time: "7:50 PM",
+    date: "July 26, 2025"
+  },
+  {
+    id: "6",
+    title: "Frontend Learning DAY :06",
+    description: `
+## Next.js App Router
+
+### File-based Routing
+
+In Next.js 13+, the App Router uses file-system based routing with special files:
+
+- \`page.tsx\` - Creates a route segment
+- \`layout.tsx\` - Shared layout for a segment
+- \`loading.tsx\` - Loading UI
+- \`error.tsx\` - Error UI
+- \`route.ts\` - API routes
+
+### Server Components vs Client Components
+
+**Server Components** (default):
+- Rendered on the server
+- Can directly access backend resources
+- Smaller bundle size
+- Cannot use hooks or browser APIs
+
+**Client Components** (\`"use client"\`):
+- Rendered in the browser
+- Can use React hooks
+- Can handle interactivity
+- Access browser APIs
+
+### Data Fetching
+
+\`\`\`typescript
+// Server Component - Direct fetch
+async function BlogPosts() {
+  const posts = await fetch('https://api.example.com/posts');
+  const data = await posts.json();
+  return <div>{/* render posts */}</div>;
+}
+
+// Client Component - useEffect
+"use client";
+function ClientPosts() {
+  const [posts, setPosts] = useState([]);
+  useEffect(() => {
+    fetch('/api/posts').then(res => res.json()).then(setPosts);
+  }, []);
+  return <div>{/* render posts */}</div>;
+}
+\`\`\`
+
+### Server Actions
+
+\`\`\`typescript
+// server action
+async function createPost(formData: FormData) {
+  "use server";
+  const title = formData.get("title");
+  // Save to database
+}
+
+// Use in form
+<form action={createPost}>
+  <input name="title" />
+  <button>Submit</button>
+</form>
+\`\`\`
+`,
+    image: "",
+    time: "10:00 PM",
+    date: "July 27, 2025"
   }
 ];
 
