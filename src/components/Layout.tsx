@@ -8,7 +8,10 @@ import { useRef } from "react";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { theme } = useTheme();
-  const backgroundVideo = theme === "dark" ? "/darkback1.mp4" : "/light.mp4";
+  // Use Cloudinary URLs from environment variables, fallback to local if not set
+  const darkVideoUrl = process.env.NEXT_PUBLIC_CLOUDINARY_DARK_VIDEO || "/darkback1.mp4";
+  const lightVideoUrl = process.env.NEXT_PUBLIC_CLOUDINARY_LIGHT_VIDEO || "/light.mp4";
+  const backgroundVideo = theme === "dark" ? darkVideoUrl : lightVideoUrl;
   const containerRef = useRef<HTMLDivElement>(null);
   return (
     <>

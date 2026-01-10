@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import {Icon} from "@iconify/react"
 import NonResButton from "@/components/commonComponent/NonResButton";
 import Link from "next/link";
+import { SOCIAL_URLS } from "@/static/urls";
 // import { useTheme } from "../../context/themecontext"
 
 export default function HomePage() {
@@ -33,20 +34,26 @@ const sections = [
             <div style={{marginLeft:"20px"}}>
               <a 
               className="iconHover" 
-              href="https://github.com/pandey03muskan" 
+              href={SOCIAL_URLS.GITHUB}
+              target="_blank"
+              rel="noopener noreferrer"
               style={{marginRight:"10px",fontSize:"1.4rem"}}>
               <Icon icon="ri:github-fill"/>
               </a>
               <a 
               className="iconHover" 
-              href="https://www.linkedin.com/in/muskan-pandey-36661a220/" 
+              href={SOCIAL_URLS.LINKEDIN}
+              target="_blank"
+              rel="noopener noreferrer"
               style={{marginRight:"10px",fontSize:"1.4rem"}}
               >
                <Icon icon="prime:linkedin"/>
               </a>
               <a 
               className="iconHover"
-              href="https://drive.google.com/file/d/13s68bVROFS9EaOLZITjnzJb1DwhnIEVO/view?usp=sharing"
+              href={SOCIAL_URLS.DRIVE}
+              target="_blank"
+              rel="noopener noreferrer"
               style={{fontSize:"1.4rem"}}
               >
                <Icon icon="mingcute:drive-line"/>

@@ -86,8 +86,7 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ section, isActive }) => {
         </Typography>
 
         {/* 📄 Description */}
-        <Typography
-          variant="body1"
+        <Box
           sx={{
             color: "var(--normal-text)",
             fontSize: "1.1rem",
@@ -97,7 +96,7 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ section, isActive }) => {
           }}
         >
           {section.description}
-        </Typography>
+        </Box>
       </Box>
     </CardSpotlight>
   );

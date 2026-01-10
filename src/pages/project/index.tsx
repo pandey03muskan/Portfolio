@@ -1,103 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, Button, Chip, Stack } from "@mui/material";
+import { Box, Typography, Button, Chip, Stack, Tabs, Tab } from "@mui/material";
 import { useTheme } from "@/context/themecontext";
 import { CardSpotlight } from "@/components/CardSpotlight";
-const projects = [
-  {
-    name: "Zaika Zunction",
-    description: (
-      <>
-        <ul>
-          <li>Zaika Junction is a two-phase culinary platform.</li>
-          <li>
-            In Phase 1, users can search and discover recipes using
-            ingredient-based filtering and keyword search.
-          </li>
-          <li>
-            In Phase 2, the platform acts as a social network — users can
-            create, like, and follow others, and engage through private
-            messaging.
-          </li>
-          <li>
-            Real-time, one-on-one chat is implemented using Socket.IO,
-            enabling persistent WebSocket connections and instant
-            bi-directional communication between users.
-          </li>
-        </ul>
-      </>
-    ),
-    techStack: ["Next.js", "MUI", "Node.js", "MongoDB"],
-    github: "https://github.com/KhushbuY123/Zaika-Junction",
-    live: "",
-  },
-  {
-    name: "Audio Book",
-    description: (
-      <>
-        <ul>
-          <li>
-            Developed a Python-based Audiobook application that converts
-            written content from PDF files into natural-sounding speech using
-            libraries like PyPDF2, pyttsx3, and tkinter.
-          </li>
-          <li>
-            Utilizes PyPDF2 to extract text from user-selected PDF files and
-            pyttsx3 for offline text-to-speech synthesis, ensuring the
-            application works without internet dependency.
-          </li>
-          <li>
-            Provides a simple and interactive GUI built with tkinter, allowing
-            users to easily upload PDF files.
-          </li>
-        </ul>
-      </>
-    ),
-    techStack: ["Python"],
-    github: "https://github.com/pandey03muskan/AudioBook",
-    live: "",
-  },
-  {
-    name: "Simon Says Game",
-    description: (
-      <>
-        <ul>
-          <li>Simon Says is a classic memory and pattern recognition game.</li>
-        </ul>
-      </>
-    ),
-    techStack: ["HTML", "CSS", "JavaScript"],
-    github: "https://github.com/pandey03muskan/SimonSays-Game",
-    live: "https://pandey03muskan.github.io/SimonGame/",
-  },
-  {
-    name: "Colors Playground",
-    description: (
-      <>
-        <ul>
-          <li>
-            This project is designed for beginners and focuses on basic color
-            operations, such as retrieving colors and creating gradient effects.
-          </li>
-        </ul>
-      </>
-    ),
-    techStack: ["HTML", "CSS", "JavaScript"],
-    github: "https://github.com/pandey03muskan/Colors_PalyGround",
-    live: "https://pandey03muskan.github.io/PlayWithColors/",
-  },
-];
+import { projects, Project } from "@/static/projects";
+
+type ProjectType = "all" | "frontend" | "fullstack";
 
 const ProjectsSection = () => {
-  const [active,setActive] = useState("Zaika Zunction");
+  const [activeProject, setActiveProject] = useState("Zaika Zunction");
+  const [selectedType, setSelectedType] = useState<ProjectType>("all");
   const theme = useTheme();
   const isDark = theme.theme === "dark";
+
+  // Filter projects based on selected type
+  const filteredProjects = projects.filter((project) => {
+    if (selectedType === "all") return true;
+    return project.type === selectedType;
+  });
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting && entry.intersectionRatio > 0.6) {
-            setActive(entry.target.id);
+            setActiveProject(entry.target.id);
           }
         });
       },
@@ -107,7 +33,11 @@ const ProjectsSection = () => {
     const els = Array.from(document.querySelectorAll("[id]"));
     els.forEach(el => observer.observe(el as Element));
     return () => els.forEach(el => observer.unobserve(el as Element));
-  }, []);
+  }, [filteredProjects]);
+
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: ProjectType) => {
+    setSelectedType(newValue);
+  };
 
   return (
     <Box>
@@ -145,6 +75,32 @@ const ProjectsSection = () => {
             Turning Ideas into Reality — A Showcase of My Work and Technical Journey
           </Typography>
         </Box>
+
+        {/* Project Type Tabs */}
+        <Box sx={{ display: "flex", justifyContent: "center", mb: 4 }}>
+          <Tabs
+            value={selectedType}
+            onChange={handleTabChange}
+            sx={{
+              "& .MuiTab-root": {
+                color: "var(--normal-text)",
+                opacity: 0.7,
+                "&.Mui-selected": {
+                  color: "var(--imp-text)",
+                  opacity: 1,
+                },
+              },
+              "& .MuiTabs-indicator": {
+                backgroundColor: "var(--imp-text)",
+              },
+            }}
+          >
+            <Tab label="All Projects" value="all" />
+            <Tab label="Frontend Projects" value="frontend" />
+            <Tab label="Fullstack Projects" value="fullstack" />
+          </Tabs>
+        </Box>
+
         <Box
           sx={{
             display: "flex",
@@ -152,8 +108,8 @@ const ProjectsSection = () => {
             gap: 6,
           }}
         >
-        {projects.map((project) => {
-            const isActive = active === project.name;
+        {filteredProjects.map((project) => {
+            const isActive = activeProject === project.name;
             return (
           <Box
           key={project.name}
