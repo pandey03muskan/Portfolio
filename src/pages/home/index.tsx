@@ -5,7 +5,9 @@ import { useEffect, useState } from "react";
 import {Icon} from "@iconify/react"
 import NonResButton from "@/components/commonComponent/NonResButton";
 import Link from "next/link";
-import { SOCIAL_URLS } from "@/static/urls";
+import Image from "next/image";
+import { SOCIAL_URLS, PROJECT_IMAGES } from "@/static/urls";
+import { professionalProjects } from "@/static/professionalProjects";
 // import { useTheme } from "../../context/themecontext"
 
 export default function HomePage() {
@@ -23,11 +25,7 @@ const sections = [
     description: (
       <>
        <div style={{fontSize:"1.2rem"}}>
-        I am a <strong>Software Development Engineer</strong>, currently working at
-        <strong style={{color:"var(--imp-text)"}}> Initializ Labs</strong>, where I’m part of the <strong style={{color:"var(--imp-text)"}}>Product Team</strong>.
-        <br />
-        I’ve worked with <strong>Golang</strong> for developing a <strong>Command Line Tool</strong>,
-        and also contributed to the <strong>Frontend Team</strong>.
+       I am a <strong>Software Development Engineer</strong> at <strong style={{color:"var(--imp-text)"}}>Initializ Labs</strong>, working as part of the <strong style={{color:"var(--imp-text)"}}>Product Team</strong>, with <strong>1 year of internship</strong> and <strong>6 months of full-time</strong> experience building scalable, high-performance web applications using <strong>React</strong> and <strong>Next.js</strong>. I focus on creating clean, responsive user interfaces, collaborate closely with cross-functional teams, and have also contributed to developing a <strong>Golang-based command-line tool</strong>.
        </div>
        <div style={{paddingTop:"1.5rem", display:"flex", gap:1}}>
             <div style={{fontSize:"1.3rem"}}>Find me on</div>
@@ -71,6 +69,154 @@ const sections = [
         <span style={{fontSize:"1.2rem"}}><strong style={{color:"var(--imp-text)"}}>05/2024 - 05/2025</strong> Software Development Engineer Intern @initializ Labs</span>
         <br />
         <span style={{fontSize:"1.2rem"}}><strong style={{color:"var(--imp-text)"}}>06/2025 - Present</strong> Software Development Engineer - 1 @initializ Labs</span>
+      </>
+    )
+    },
+  { 
+    title: "Professional Experience", 
+    id: "professional-experience",
+    icon:<svg xmlns="http://www.w3.org/2000/svg" width={40} height={40} viewBox="0 0 24 24"><path fill="currentColor" d="M20 6h-2.18c.11-.31.18-.65.18-1a2.996 2.996 0 0 0-5.5-1.65l-.5.67l-.5-.68C10.96 2.54 10 2 9 2C7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2m-5-2c.55 0 1 .45 1 1s-.45 1-1 1s-1-.45-1-1s.45-1 1-1M9 4c.55 0 1 .45 1 1s-.45 1-1 1s-1-.45-1-1s.45-1 1-1m11 15H4v-2h16zm0-5H4V8h5.08L7 10.83L8.62 12L11 8.76l1-1.36l1 1.36L15.38 12L17 10.83L14.92 8H20z"></path></svg>,
+    description: (
+      <>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 4 }}>
+
+          {/* Horizontal Layout for Projects with Images */}
+          <Box sx={{ 
+            display: "grid", 
+            gridTemplateColumns: { xs: "1fr", md: "repeat(3, 1fr)" },
+            gap: 3,
+            width: "100%"
+          }}>
+            {professionalProjects.map((project, index) => {
+              const cardSx = { 
+                border: "1px solid rgba(255, 255, 255, 0.1)", 
+                borderRadius: "12px", 
+                p: 2,
+                backgroundColor: "rgba(0, 0, 0, 0.1)",
+                display: "flex",
+                flexDirection: "column",
+                height: "100%",
+                cursor: project.liveUrl ? "pointer" : "default",
+                textDecoration: "none",
+                transition: "all 0.3s ease",
+                position: "relative",
+                "&:hover": {
+                  transform: "translateY(-4px)",
+                  boxShadow: "0 8px 16px rgba(0, 0, 0, 0.3)",
+                  borderColor: "var(--imp-text)",
+                },
+              };
+
+              const cardContent = (
+                <>
+                  {/* Image Box */}
+                  <Box sx={{ 
+                    borderRadius: "8px", 
+                    overflow: "hidden", 
+                    border: "1px solid rgba(255, 255, 255, 0.1)",
+                    position: "relative",
+                    width: "100%",
+                    height: "250px",
+                    mb: 2,
+                    backgroundColor: "rgba(0, 0, 0, 0.3)"
+                  }}>
+                    <Image 
+                      src={project.imageUrl}
+                      alt={`${project.title} Screenshot`}
+                      fill
+                      style={{ objectFit: "contain" }}
+                      sizes="(max-width: 600px) 100vw, 33vw"
+                      unoptimized
+                    />
+                    {/* Redirect Icon - shown only if liveUrl exists */}
+                    {project.liveUrl && (
+                      <Box
+                        sx={{
+                          position: "absolute",
+                          top: "8px",
+                          right: "8px",
+                          backgroundColor: "rgba(0, 0, 0, 0.7)",
+                          borderRadius: "50%",
+                          width: "32px",
+                          height: "32px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          border: "1px solid rgba(255, 255, 255, 0.2)",
+                          backdropFilter: "blur(8px)",
+                          zIndex: 2,
+                        }}
+                      >
+                        <Icon 
+                          icon="lucide:external-link" 
+                          style={{ 
+                            fontSize: "16px", 
+                            color: "var(--imp-text)",
+                          }} 
+                        />
+                      </Box>
+                    )}
+                  </Box>
+                  {/* Title */}
+                  <Typography sx={{ fontSize: "1.2rem", fontWeight: 600, color: "var(--imp-text)", mb: 1, fontFamily: "Montserrat", display: "flex", alignItems: "center", gap: 1 }}>
+                    {project.title}
+                    {project.liveUrl && (
+                      <Icon 
+                        icon="lucide:external-link" 
+                        style={{ 
+                          fontSize: "18px", 
+                          color: "var(--imp-text)",
+                          opacity: 0.8,
+                        }} 
+                      />
+                    )}
+                  </Typography>
+                  {/* Tech Stack */}
+                  <Typography sx={{ fontSize: "0.95rem", color: "var(--normal-text)", mb: 1.5, opacity: 0.9, fontFamily: "Montserrat" }}>
+                    <strong style={{color:"var(--imp-text)"}}>Tech Stack:</strong> {project.techStack}
+                  </Typography>
+                  {/* Description */}
+                  <Typography sx={{ fontSize: "0.95rem", color: "var(--normal-text)", lineHeight: 1.6, flexGrow: 1, fontFamily: "Montserrat" }}>
+                    {project.description}
+                  </Typography>
+                </>
+              );
+
+              if (project.liveUrl) {
+                return (
+                  <Box
+                    key={index}
+                    component="a"
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    sx={cardSx}
+                  >
+                    {cardContent}
+                  </Box>
+                );
+              }
+
+              return (
+                <Box
+                  key={index}
+                  sx={cardSx}
+                >
+                  {cardContent}
+                </Box>
+              );
+            })}
+          </Box>
+
+          {/* Note */}
+          <Box sx={{ mt: 1 }}>
+            <Typography sx={{ fontSize: "1rem", color: "var(--normal-text)", fontStyle: "italic", opacity: 0.9 }}>
+              <strong style={{color:"var(--imp-text)"}}>Note:</strong> These projects were developed as part of my professional work at Initializ Labs. 
+              All UI work was implemented using <strong style={{color:"var(--imp-text)"}}>Next.js</strong> and <strong style={{color:"var(--imp-text)"}}>MUI</strong>. 
+              Due to company policies, code repositories are not publicly available.
+            </Typography>
+          </Box>
+        </Box>
       </>
     )
     },
